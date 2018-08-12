@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/liymeleaf/layout"
+      lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="widli=device-widli, initial-scale=1">
+    <link rel="apple-touch-icon" href="https://www.wannacorn.com//static/img/icon/icon_logo48.ico?v=20180720">
+    <link rel="shortcut icon" href="https://www.wannacorn.com//static/img/icon/icon_logo48.ico?v=20180720">
+    <link rel="icon" href="https://www.wannacorn.com//static/img/icon/icon_logo48.ico?v=20180720">
+    <title>WorldCup2018</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.1.1/css/bootstrap.min.css}">
+    <script th:src="@{/webjars/jquery/3.3.1-1/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.1.1/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.1.1/js/bootstrap.min.js}"></script>
+    <style>
+        body {
+            margin-left: 2em;
+            margin-right: 2em;
+            background-color: #f3f3f3;
+        }
+
+        .t-space {
+            height: 30px;
+        }
+    </style>
+    <script>
+        $(function () {
+            //页面加载滚动条监听
+            if ($(window).scrollTop() > 100) {
+                $("#backTop").show();
+            } else {
+                $("#backTop").hide();
+            }
+            //滚动条监听
+            $(window).scroll(function () {
+                if ($(window).scrollTop() > 100) {
+                    $("#backTop").show();
+                } else {
+                    $("#backTop").hide();
+                }
+            });
+
+            //当点击跳转链接后，回到页面顶部位置
+            $("#backTop").click(function () {
+                if ($('html').scrollTop()) {
+                    $('html').animate({scrollTop: 0}, 500);
+                    return false;
+                }
+                $('body').animate({scrollTop: 0}, 500);
+                return false;
+            });
+        })
+    </script>
+</head>
+<body>
+<div>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
+        <a th:href="@{/}">
+            <img src="https://www.wannacorn.com/static/img/icon/icon_logo48.ico" width="85%">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/}">首页</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">文章</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" th:href="@{/article/add}">添加文章</a>
+                        <a class="dropdown-item" th:href="@{/article}">文章管理</a>
+                    </div>
+                </li>
+            </ul>
+            <div class="navbar-nav ml-auto">
+                <!--<a class="nav-item nav-link" sec:authentication="principal == null" th:href="@{/login}">登录</a>
+                <span th:if="${principal != null}">
+                    你好 <span sec:authentication="principal.username">NAME</span>
+                </span>-->
+                <a class="nav-item nav-link" th:href="@{/logout}">退出</a>
+            </div>
+        </div>
+    </nav>
+</div>
+<div layout:fragment="content" class="clearfix" style="margin-top: 3.55rem"></div>
+<button id="backTop" class="btn btn-outline-primary position-fixed" style="right: 0;bottom: 2rem">返回顶部</button>
+<footer class="clearfix text-center">
+    <hr>
+    &copy; 2018 - 2019 WorldCup.Inc
+</footer>
+</body>
+</html>

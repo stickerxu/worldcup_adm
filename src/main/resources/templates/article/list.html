@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}"
+      lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>文章管理列表</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="t-space"></div>
+    <h2>文章管理列表</h2>
+    <hr>
+    <div>
+        <div>
+            <form class="form-inline" action="/article" method="post">
+                <div class="form-group mr-2">
+                    <label>文章类型：</label>
+                    <select name="type" class="form-control">
+                        <option value="0" th:selected="${type == 0}">全部</option>
+                        <option value="1" th:selected="${type == 1}">区块链</option>
+                        <option value="99" th:selected="${type == 99}">其他</option>
+                    </select>
+                </div>
+                <div class="form-group mr-2">
+                    <label>文章状态：</label>
+                    <select name="status" class="form-control">
+                        <option value="0" th:selected="${status == 0}">全部</option>
+                        <option value="1" th:selected="${status == 1}">未发布</option>
+                        <option value="2" th:selected="${status == 2}">已发布</option>
+                    </select>
+                </div>
+                <div class="form-group mr-2">
+                    <label>文章标题：</label>
+                    <input name="title" th:value="${title}" class="form-control">
+                </div>
+                <button class="btn btn-primary">搜索</button>
+            </form>
+        </div>
+        <hr>
+        <div>
+            <table class="table table-bordered table-hover">
+                <tr class="thead-dark">
+                    <th>文章序号</th>
+                    <th>文章类型</th>
+                    <th>文章标题</th>
+                    <th>创建时间</th>
+                    <th>文章状态</th>
+                    <th>操作</th>
+                </tr>
+                <tr th:each="art, artStat : ${pageList}">
+                    <td th:text="${artStat.count}"></td>
+                    <td th:switch="${art.type}">
+                        <span th:case="1">区块链</span>
+                        <span th:case="99">其他</span>
+                        <span th:case="*">UNKOWN</span>
+                    </td>
+                    <td th:text="${art.title}"></td>
+                    <td th:text="${#dates.format(art.createTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <td th:switch="${art.status}">
+                        <span th:case="0">未发布</span>
+                        <span th:case="1">已发布</span>
+                    </td>
+                    <!--todo-->
+                    <td>
+                        <button class="btn btn-primary btn-sm">预览</button>
+                        <button class="btn btn-success btn-sm">发布</button>
+                        <button class="btn btn-danger btn-sm">删除</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>
