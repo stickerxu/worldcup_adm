@@ -5,6 +5,36 @@
 <head>
     <meta charset="UTF-8">
     <title>文章管理列表</title>
+    <script>
+        //发布
+        function publishArt(id) {
+            if (confirm("确定发布吗？")) {
+                $.post("/article/publish", {id:id}, publishArtCallback);
+            }
+        }
+        function publishArtCallback(data) {
+            if (data == 1) {
+                alert("操作成功");
+                location.reload();
+            } else {
+                alert("操作失败");
+            }
+        }
+        //删除
+        function deleteArt(id) {
+            if (confirm("确定删除吗")) {
+                $.post("/article/delete", {id:id}, deleteArtCallback);
+            }
+        }
+        function deleteArtCallback(data) {
+            if (data == 1) {
+                alert("操作成功");
+                location.reload();
+            } else {
+                alert("操作失败");
+            }
+        }
+    </script>
 </head>
 <body>
 <div layout:fragment="content">
@@ -58,17 +88,18 @@
                     <td th:text="${art.title}"></td>
                     <td th:text="${#dates.format(art.createTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
                     <td th:switch="${art.status}">
-                        <span th:case="0">未发布</span>
-                        <span th:case="1">已发布</span>
+                        <span th:case="1">未发布</span>
+                        <span th:case="2">已发布</span>
                     </td>
                     <!--todo-->
                     <td>
                         <button class="btn btn-primary btn-sm">预览</button>
-                        <button class="btn btn-success btn-sm">发布</button>
-                        <button class="btn btn-danger btn-sm">删除</button>
+                        <button class="btn btn-success btn-sm" th:onclick="'javascript:publishArt('+${art.id}+')'">发布</button>
+                        <button class="btn btn-danger btn-sm" th:onclick="'javascript:deleteArt('+${art.id}+')'">删除</button>
                     </td>
                 </tr>
             </table>
+            <div th:replace="fragments/pagination :: pagination(${'/article'})"></div>
         </div>
     </div>
 </div>

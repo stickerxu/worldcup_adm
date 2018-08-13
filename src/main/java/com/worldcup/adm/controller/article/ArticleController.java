@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +27,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
 
 @Controller
 @Slf4j
@@ -94,5 +96,19 @@ public class ArticleController {
             return "error";
         }
         return "success";
+    }
+
+    @PostMapping("/publish")
+    public @ResponseBody int publish(@RequestParam("id") Integer id) {
+        int result = 1;
+        articleService.updateStatusById(id);
+        return result;
+    }
+
+    @PostMapping("/delete")
+    public @ResponseBody int delete(@RequestParam("id") Integer id) {
+        int result = 1;
+        articleService.deleteById(id);
+        return result;
     }
 }

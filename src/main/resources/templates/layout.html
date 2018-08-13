@@ -79,10 +79,9 @@
                 </li>
             </ul>
             <div class="navbar-nav ml-auto">
-                <!--<a class="nav-item nav-link" sec:authentication="principal == null" th:href="@{/login}">登录</a>
-                <span th:if="${principal != null}">
-                    你好 <span sec:authentication="principal.username">NAME</span>
-                </span>-->
+                <span class="nav-item nav-link">
+                    <strong sec:authentication="name">NAME</strong>&nbsp;<strong sec:authentication="principal.authorities"></strong>
+                </span>
                 <a class="nav-item nav-link" th:href="@{/logout}">退出</a>
             </div>
         </div>

@@ -10,4 +10,8 @@ public interface ArticleService {
     Integer countArticlesByType(Integer type);
 
     void save(Article article);
+
+    void deleteById(Integer id);
+
+    void updateStatusById(Integer id);
 }

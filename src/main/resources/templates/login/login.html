@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}"
       lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <title>登录</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.1.1/css/bootstrap.min.css}">
+    <script th:src="@{/webjars/jquery/3.3.1-1/jquery.min.js}"></script>
     <style>
+        body {
+            background-color: #f3f3f3;
+        }
+
         fieldset {
             width: 300px;
             text-align: center;
             margin: auto;
             padding-top: 200px;
-        }
-
-        #forgetPass {
-            font-size: 0.875em;
-            text-decoration-line: none;
         }
 
         #loginMessage {
@@ -33,8 +33,7 @@
     </script>
 </head>
 <body>
-<!--todo 与Layout页面分离-->
-<div layout:fragment="content">
+<div class="container">
     <fieldset>
         <form id="loginForm" th:action="@{/loginSub}" method="post">
             <legend>请登录</legend>
