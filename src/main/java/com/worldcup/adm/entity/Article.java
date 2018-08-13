@@ -2,6 +2,7 @@ package com.worldcup.adm.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,6 +25,8 @@ public class Article extends BaseEntity implements Serializable {
     private Integer status;
     private String title;
     private String fileName;
+    @CreationTimestamp
+    @Column(updatable = false)
     private Date createTime;
 
 }

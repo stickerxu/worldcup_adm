@@ -3,7 +3,6 @@ package com.worldcup.adm.controller.article;
 import com.worldcup.adm.Constants;
 import com.worldcup.adm.entity.Article;
 import com.worldcup.adm.entity.OperateResult;
-import com.worldcup.adm.repository.ArticleRepository;
 import com.worldcup.adm.service.ArticleService;
 import com.worldcup.adm.util.ParameterUtil;
 import com.worldcup.adm.util.ResponsePageUtil;
@@ -27,7 +26,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.List;
 
 @Controller
 @Slf4j
@@ -36,7 +34,7 @@ public class ArticleController {
     @Autowired
     private ArticleService articleService;
 
-    @Value("${web.article.path.dev}")
+    @Value("${web.article.path}")
     private String webArticlePath;
 
     @RequestMapping({"", "/"})
@@ -51,7 +49,7 @@ public class ArticleController {
         modelMap.put("page", page);
         article.setType(type);
         modelMap.put("type", type);
-        article.setType(status);
+        article.setStatus(status);
         modelMap.put("status", status);
         if (ParameterUtil.isNotBlank(title)) {
             article.setTitle(title);
@@ -86,6 +84,7 @@ public class ArticleController {
             Files.copy(file.getInputStream(), Paths.get(dirPath.toString(), builder.toString()), StandardCopyOption.REPLACE_EXISTING);
             //入库
             article.setFileName(builder.toString());
+            article.setStatus(1);
             articleService.save(article);
             log.info("添加文章：{}",article.getFileName());
             //返回结果
