@@ -3,6 +3,7 @@ package com.worldcup.adm.entity;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,6 +20,7 @@ public class Article extends BaseEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private Integer type;
+    @Column(columnDefinition = "tinyint(1) NOT NULL DEFAULT 1")
     private Integer status;
     private String title;
     private String fileName;

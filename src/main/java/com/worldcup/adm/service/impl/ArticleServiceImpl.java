@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
@@ -39,5 +40,16 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public void save(Article article) {
         articleRepository.save(article);
+    }
+
+    @Override
+    public void deleteById(Integer id) {
+        articleRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateStatusById(Integer id) {
+        articleRepository.updateStatusById(id);
     }
 }
