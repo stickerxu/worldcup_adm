@@ -25,6 +25,9 @@ public class ArticleServiceImpl implements ArticleService {
             if(null != article.getType() && article.getType() != 0){
                 predicates.add(builder.equal(root.get("type").as(Integer.class), article.getType()));
             }
+            if(null != article.getStatus() && article.getStatus() != 0){
+                predicates.add(builder.equal(root.get("status").as(Integer.class), article.getStatus()));
+            }
             if(null != article.getTitle()){
                 predicates.add(builder.like(root.get("title").as(String.class), "%"+article.getTitle()+"%"));
             }
