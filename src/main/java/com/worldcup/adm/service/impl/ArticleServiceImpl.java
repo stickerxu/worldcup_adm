@@ -52,7 +52,12 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateStatusById(Integer id) {
-        articleRepository.updateStatusById(id);
+    public void updateStatusAndPublishTimeById(Integer id) {
+        articleRepository.updateStatusAndPublishTimeById(id);
+    }
+
+    @Override
+    public Article getArticleById(Integer id) {
+        return articleRepository.findById(id).get();
     }
 }

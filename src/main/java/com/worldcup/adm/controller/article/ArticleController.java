@@ -2,8 +2,10 @@ package com.worldcup.adm.controller.article;
 
 import com.worldcup.adm.Constants;
 import com.worldcup.adm.entity.Article;
+import com.worldcup.adm.entity.ArticleType;
 import com.worldcup.adm.entity.OperateResult;
 import com.worldcup.adm.service.ArticleService;
+import com.worldcup.adm.service.ArticleTypeService;
 import com.worldcup.adm.util.ParameterUtil;
 import com.worldcup.adm.util.ResponsePageUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +28,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
 
 @Controller
 @Slf4j
@@ -33,8 +36,10 @@ import java.nio.file.StandardCopyOption;
 public class ArticleController {
     @Autowired
     private ArticleService articleService;
+    @Autowired
+    private ArticleTypeService articleTypeService;
 
-    @Value("${web.article.path}")
+    @Value("${web.article.path.dev}")
     private String webArticlePath;
 
     @RequestMapping({"", "/"})
@@ -61,7 +66,9 @@ public class ArticleController {
     }
 
     @GetMapping("/add")
-    public String add() {
+    public String add(ModelMap modelMap) {
+        List<ArticleType> types = articleTypeService.listAll();
+        modelMap.put("types", types);
         return "article/add";
     }
     @PostMapping("/addSub")
@@ -100,14 +107,22 @@ public class ArticleController {
     @PostMapping("/publish")
     public @ResponseBody int publish(@RequestParam("id") Integer id) {
         int result = 1;
-        articleService.updateStatusById(id);
+        articleService.updateStatusAndPublishTimeById(id);
         return result;
     }
 
     @PostMapping("/delete")
     public @ResponseBody int delete(@RequestParam("id") Integer id) {
-        int result = 1;
-        articleService.deleteById(id);
+        int result = 0;
+        Article article = articleService.getArticleById(id);
+        Path path = Paths.get(webArticlePath, String.valueOf(article.getType()), article.getFileName());
+        try {
+            Files.delete(path);
+            articleService.deleteById(id);
+            result = 1;
+        } catch (IOException e) {
+            log.error(e.getMessage(), e);
+        }
         return result;
     }
 }

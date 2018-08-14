@@ -13,6 +13,6 @@ public interface ArticleRepository extends JpaRepository<Article, Integer>, JpaS
     Integer countArticlesByType(Integer type);
 
     @Modifying
-    @Query(value = "update article art set art.status = 2 where art.id = ?1", nativeQuery = true)
-    void updateStatusById(Integer id);
+    @Query(value = "update article art set art.status = 2, art.publish_time = now() where art.id = ?1", nativeQuery = true)
+    void updateStatusAndPublishTimeById(Integer id);
 }
