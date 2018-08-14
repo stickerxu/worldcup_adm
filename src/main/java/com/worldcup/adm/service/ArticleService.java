@@ -13,5 +13,7 @@ public interface ArticleService {
 
     void deleteById(Integer id);
 
-    void updateStatusById(Integer id);
+    void updateStatusAndPublishTimeById(Integer id);
+
+    Article getArticleById(Integer id);
 }

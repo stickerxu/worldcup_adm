@@ -15,11 +15,18 @@
 </head>
 <body>
 <div layout:fragment="content" class="container">
+
     <div class="t-space"></div>
     <h2>添加文章</h2>
     <hr>
     <div>
         <form class="w-50" action="/article/addSub" method="post" enctype="multipart/form-data">
+            <div class="form-group row">
+                <label class="col-form-label col-sm-3" for="author">文章作者</label>
+                <div class="col-sm-4">
+                    <input class="form-control" name="author" id="author" value="Sticker" required>
+                </div>
+            </div>
             <div class="form-group row">
                 <label class="col-form-label col-sm-3" for="title">文章标题</label>
                 <div class="col-sm-8">
@@ -29,10 +36,12 @@
             <div class="form-group row">
                 <label class="col-form-label col-sm-3">文章类型</label>
                 <div class="col-sm-3">
-                    <select class="form-control" name="type">
-                        <option value="1">区块链</option>
-                        <option value="99">其他</option>
+                    <select class="form-control" name="type" th:each="arttype : ${types}">
+                        <option th:value="${arttype.id}" th:text="${arttype.name}">type_name</option>
                     </select>
+                </div>
+                <div class="col-sm-2">
+                    <button type="button" class="btn btn-outline-dark btn-sm" data-toggle="modal" data-target="#articleTypeModal">新增类型</button>
                 </div>
             </div>
             <div class="form-group row">
@@ -50,6 +59,28 @@
                 </div>
             </div>
         </form>
+    </div>
+    <!--新增类型模态框-->
+    <div class="modal fade" id="articleTypeModal" tabindex="-1" role="dialog" aria-labelledby="articleTypeModal" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header"><h5>新增文章类型</h5></div>
+                <div class="modal-body">
+                    <form id="artTypeForm" action="/article/type/add" class="w-75" method="post">
+                        <div class="form-group">
+                            <label for="name">类型名称</label>
+                            <div>
+                                <input class="form-control" id="name" name="name" required>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">取消</button>
+                    <button class="btn btn-primary btn-sm" form="artTypeForm">确定</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 </body>
