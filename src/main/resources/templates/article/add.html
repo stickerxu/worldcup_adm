@@ -35,9 +35,9 @@
             </div>
             <div class="form-group row">
                 <label class="col-form-label col-sm-3">文章类型</label>
-                <div class="col-sm-3">
-                    <select class="form-control" name="type" th:each="arttype : ${types}">
-                        <option th:value="${arttype.id}" th:text="${arttype.name}">type_name</option>
+                <div class="col-sm-4">
+                    <select class="form-control" name="type">
+                        <option th:each="arttype : ${types}" th:value="${arttype.id}" th:text="${arttype.name}">type_name</option>
                     </select>
                 </div>
                 <div class="col-sm-2">

@@ -16,9 +16,8 @@ public class ArticleTypeController {
     @Autowired
     private ArticleTypeService articleTypeService;
     @PostMapping("/add")
-    public @ResponseBody Integer add(ArticleType articleType) {
-        int result = 1;
+    public String add(ArticleType articleType) {
         articleTypeService.save(articleType);
-        return result;
+        return "redirect:/article/add";
     }
 }
