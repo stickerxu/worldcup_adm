@@ -18,6 +18,6 @@ public class ArticleType extends BaseEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(columnDefinition = "varchar(10) NOT NULL DEFAULT ''")
+    @Column(columnDefinition = "varchar(20) NOT NULL DEFAULT ''")
     private String name;
 }

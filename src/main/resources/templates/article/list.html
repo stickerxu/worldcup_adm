@@ -46,8 +46,9 @@
             <form class="form-inline" action="/article" method="post">
                 <div class="form-group mr-2">
                     <label>文章类型：</label>
-                    <select class="form-control" name="type" th:each="arttype : ${types}">
-                        <option th:value="${arttype.id}" th:text="${arttype.name}" th:selected="${type == arttype.id}">type_name</option>
+                    <select class="form-control" name="type">
+                        <option value="0" th:selected="${type == 0}">全部</option>
+                        <option th:each="arttype : ${types}" th:value="${arttype.id}" th:text="${arttype.name}" th:selected="${type == arttype.id}">type_name</option>
                     </select>
                 </div>
                 <div class="form-group mr-2">
@@ -78,8 +79,8 @@
                 </tr>
                 <tr th:each="art, artStat : ${pageList}">
                     <td th:text="${artStat.count}"></td>
-                    <td th:switch="${art.type}" th:each="arttype : ${types}">
-                        <span th:case="${arttype.id}" th:text="${arttype.name}">type_name</span>
+                    <td th:switch="${art.type}">
+                        <span th:each="arttype : ${types}" th:case="${arttype.id}" th:text="${arttype.name}">type_name</span>
                         <span th:case="*">UNKOWN</span>
                     </td>
                     <td th:text="${art.title}"></td>

@@ -62,6 +62,8 @@ public class ArticleController {
         }
         Page<Article> articles = articleService.listArticleByCriteria(article, Sort.by(Sort.Order.desc("id")));
         modelMap.put("pageList", articles);
+        List<ArticleType> types = articleTypeService.listAll();
+        modelMap.put("types", types);
         return "article/list";
     }
 
