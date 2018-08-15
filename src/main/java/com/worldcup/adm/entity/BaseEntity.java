@@ -7,5 +7,5 @@ import lombok.Setter;
 @Setter
 public class BaseEntity {
     private Integer page;
-    private Integer size = 20;
+    private Integer size = 1;
 }
