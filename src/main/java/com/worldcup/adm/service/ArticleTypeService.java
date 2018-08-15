@@ -8,4 +8,7 @@ public interface ArticleTypeService {
     void save(ArticleType articleType);
     void deleteById(Integer id);
     List<ArticleType> listAll();
+    ArticleType getById(Integer id);
+    void updateByObj(ArticleType articleType);
+    void updateStatusById(Integer id, Integer status);
 }

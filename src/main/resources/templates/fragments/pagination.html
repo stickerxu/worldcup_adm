@@ -12,19 +12,33 @@
             <button class="page-link" th:form="${formId}" th:formaction="${url + '?page=0'}" tabindex="-1">首页</button>
         </li>
         <li th:class="${page > 0} ? 'page-item' : 'page-item disabled'">
-            <button class="page-link" th:form="${formId}" th:formaction="${url + '?page=' + (page - 1)}" tabindex="-1">上一页</button>
+            <button class="page-link" th:form="${formId}" th:formaction="${url + '?page=' + (page - 1)}" tabindex="-1">
+                上一页
+            </button>
         </li>
         <!--设定最大显示3个页数 start-->
-        <span th:if="${pageList.totalPages <= 3}" th:each="pageNo,pageNoStat : ${#numbers.sequence(0,(pageList.totalPages - 1),1)}">
-            <li th:class="${page == pageNoStat.index ? 'page-item active' : 'page-item'}"><button class="page-link" th:form="${formId}" th:formaction="${url + '?page=' + pageNoStat.index}" th:text="${pageNoStat.count}"></button></li>
+        <span th:if="${pageList.totalPages <= 3}"
+              th:each="pageNo,pageNoStat : ${#numbers.sequence(0,(pageList.totalPages - 1),1)}">
+            <li th:class="${page == pageNoStat.index ? 'page-item active' : 'page-item'}"><button class="page-link"
+                                                                                                  th:form="${formId}"
+                                                                                                  th:formaction="${url + '?page=' + pageNoStat.index}"
+                                                                                                  th:text="${pageNoStat.count}"></button></li>
         </span>
         <span th:if="${pageList.totalPages > 3}" th:each="pageNo,pageNoStat : ${#numbers.sequence(0,2,1)}">
-            <li th:if="${page < 2}" th:class="${page == pageNoStat.index ? 'page-item active' : 'page-item'}"><button class="page-link" th:form="${formId}" th:formaction="${url + '?page=' + pageNoStat.index}" th:text="${pageNoStat.count}"></button></li>
-            <li th:if="${page >= 2 and page < pageList.totalPages-1}" th:class="${page == (page + pageNoStat.index -1) ? 'page-item active' : 'page-item'}">
-                <button class="page-link" th:form="${formId}" th:formaction="${url + '?page=' + (page + pageNoStat.index -1)}" th:text="${page + pageNoStat.count -1}"></button>
+            <li th:if="${page < 2}" th:class="${page == pageNoStat.index ? 'page-item active' : 'page-item'}"><button
+                    class="page-link" th:form="${formId}" th:formaction="${url + '?page=' + pageNoStat.index}"
+                    th:text="${pageNoStat.count}"></button></li>
+            <li th:if="${page >= 2 and page < pageList.totalPages-1}"
+                th:class="${page == (page + pageNoStat.index -1) ? 'page-item active' : 'page-item'}">
+                <button class="page-link" th:form="${formId}"
+                        th:formaction="${url + '?page=' + (page + pageNoStat.index -1)}"
+                        th:text="${page + pageNoStat.count -1}"></button>
             </li>
-            <li th:if="${page >= 2 and page == pageList.totalPages-1}" th:class="${page == (page + pageNoStat.index -2) ? 'page-item active' : 'page-item'}">
-                <button class="page-link" th:form="${formId}" th:formaction="${url + '?page=' + (pageList.totalPages + pageNoStat.index - 3)}" th:text="${pageList.totalPages + pageNoStat.index - 2}"></button>
+            <li th:if="${page >= 2 and page == pageList.totalPages-1}"
+                th:class="${page == (page + pageNoStat.index -2) ? 'page-item active' : 'page-item'}">
+                <button class="page-link" th:form="${formId}"
+                        th:formaction="${url + '?page=' + (pageList.totalPages + pageNoStat.index - 3)}"
+                        th:text="${pageList.totalPages + pageNoStat.index - 2}"></button>
             </li>
         </span>
         <!--设定最大显示3个页数 end-->
@@ -32,7 +46,9 @@
             <button class="page-link" th:form="${formId}" th:formaction="${url + '?page=' + (page + 1)}">下一页</button>
         </li>
         <li class="page-item">
-            <button class="page-link" th:form="${formId}"  th:formaction="${url + '?page=' + (pageList.totalPages - 1)}">尾页</button>
+            <button class="page-link" th:form="${formId}" th:formaction="${url + '?page=' + (pageList.totalPages - 1)}">
+                尾页
+            </button>
         </li>
     </ul>
 </div>

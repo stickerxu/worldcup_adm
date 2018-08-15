@@ -5,6 +5,7 @@ import com.worldcup.adm.repository.ArticleTypeRepostory;
 import com.worldcup.adm.service.ArticleTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -25,5 +26,21 @@ public class ArticleTypeServiceImpl implements ArticleTypeService {
     @Override
     public List<ArticleType> listAll() {
         return articleTypeRepostory.findAll();
+    }
+
+    @Override
+    public ArticleType getById(Integer id) {
+        return articleTypeRepostory.findById(id).get();
+    }
+
+    @Override
+    public void updateByObj(ArticleType articleType) {
+        articleTypeRepostory.saveAndFlush(articleType);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateStatusById(Integer id, Integer status) {
+        articleTypeRepostory.updateStatusById(id, status);
     }
 }

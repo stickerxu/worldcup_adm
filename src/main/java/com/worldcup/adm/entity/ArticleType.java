@@ -20,4 +20,9 @@ public class ArticleType extends BaseEntity implements Serializable {
     private Integer id;
     @Column(columnDefinition = "varchar(20) NOT NULL DEFAULT ''")
     private String name;
+    //1 不显示；2 显示
+    @Column(columnDefinition = "tinyint(1) NOT NULL DEFAULT 0")
+    private Integer status = 1;
+    @Column(columnDefinition = "tinyint(3) NOT NULL DEFAULT 0")
+    private Integer weight = 0;
 }

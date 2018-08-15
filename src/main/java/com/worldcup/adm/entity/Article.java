@@ -22,11 +22,13 @@ public class Article extends BaseEntity implements Serializable {
     private Integer id;
     private Integer type;
     @Column(columnDefinition = "tinyint(1) NOT NULL DEFAULT 1")
-    private Integer status;
+    private Integer status = 1;
     @Column(columnDefinition = "varchar(20) NOT NULL DEFAULT ''")
-    private String author;
+    private String author = "";
     private String title;
     private String fileName;
+    @Column(columnDefinition = "tinyint(3) NOT NULL DEFAULT 0")
+    private Integer weight = 0;
     private Date publishTime;
     @CreationTimestamp
     @Column(updatable = false)

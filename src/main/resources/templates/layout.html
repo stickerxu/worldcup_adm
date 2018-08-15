@@ -17,13 +17,12 @@
     <script th:src="@{/webjars/bootstrap/4.1.1/js/bootstrap.min.js}"></script>
     <style>
         body {
-            margin-left: 2em;
-            margin-right: 2em;
+            width: 100%;
+            min-width: 1000px;
             background-color: #f3f3f3;
         }
-
         .t-space {
-            height: 30px;
+            margin-top: 5.55rem;
         }
     </style>
     <script>
@@ -75,19 +74,22 @@
                     <div class="dropdown-menu">
                         <a class="dropdown-item" th:href="@{/article/add}">添加文章</a>
                         <a class="dropdown-item" th:href="@{/article}">文章管理</a>
+                        <a class="dropdown-item" th:href="@{/article/type}">分类管理</a>
                     </div>
                 </li>
             </ul>
             <div class="navbar-nav ml-auto">
                 <span class="nav-item nav-link">
-                    <strong sec:authentication="name">NAME</strong>&nbsp;<strong sec:authentication="principal.authorities"></strong>
+                    <strong sec:authentication="name">NAME</strong>&nbsp;<strong
+                        sec:authentication="principal.authorities"></strong>
                 </span>
                 <a class="nav-item nav-link" th:href="@{/logout}">退出</a>
             </div>
         </div>
     </nav>
 </div>
-<div layout:fragment="content" class="clearfix" style="margin-top: 3.55rem"></div>
+<div class="clearfix t-space"></div>
+<div layout:fragment="content" class="container"></div>
 <button id="backTop" class="btn btn-outline-primary position-fixed" style="right: 0;bottom: 2rem">返回顶部</button>
 <footer class="clearfix text-center">
     <hr>
