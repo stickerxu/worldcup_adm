@@ -1,25 +1,27 @@
 <!DOCTYPE html>
-<html
-        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}"
-        lang="zh-CN">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}"
+      lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <title>管理后台</title>
     <style>
-        a,a:hover,a:active {
+        a, a:hover, a:active {
             text-decoration-line: none;
         }
     </style>
 </head>
 <body>
-<div layout:fragment="content" class="container">
-    <div class="t-space"></div>
+<div layout:fragment="content">
     <h2>管理后台</h2>
     <hr>
     <div>
         <ul>
             <li>
                 <a href="/article">文章管理</a>
+            </li>
+            <li>
+                <a href="/article/type">分类管理</a>
             </li>
         </ul>
     </div>

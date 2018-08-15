@@ -5,13 +5,20 @@
 <head>
     <meta charset="UTF-8">
     <title>文章管理列表</title>
+    <style>
+        .container {
+            max-width: 1600px;
+        }
+    </style>
     <script>
         //发布
-        function publishArt(id) {
-            if (confirm("确定发布吗？")) {
-                $.post("/article/publish", {id:id}, publishArtCallback);
+        function publishArt(id, status) {
+            if (confirm("确定执行操作吗？")) {
+                status = status == 1 ? 2 : 1;
+                $.post("/article/publish", {id: id, status : status}, publishArtCallback);
             }
         }
+
         function publishArtCallback(data) {
             if (data == 1) {
                 alert("操作成功");
@@ -20,12 +27,14 @@
                 alert("操作失败");
             }
         }
+
         //删除
         function deleteArt(id) {
-            if (confirm("确定删除吗")) {
-                $.post("/article/delete", {id:id}, deleteArtCallback);
+            if (confirm("确定删除吗？")) {
+                $.post("/article/delete", {id: id}, deleteArtCallback);
             }
         }
+
         function deleteArtCallback(data) {
             if (data == 1) {
                 alert("操作成功");
@@ -34,11 +43,21 @@
                 alert("操作失败");
             }
         }
+
+        //编辑
+        function updateArt(id) {
+            $.get("/article/update/get", {id : id}, updateArtCallback);
+        }
+        function updateArtCallback(data) {
+            $("#updateModal input[name='id']").val(data.id);
+            $("#updateModal input[name='title']").val(data.title);
+            $("#updateModal input[name='weight']").val(data.weight);
+            $('#updateModal').modal('show');
+        }
     </script>
 </head>
 <body>
 <div layout:fragment="content">
-    <div class="t-space"></div>
     <h2>文章管理列表</h2>
     <hr>
     <div>
@@ -48,7 +67,9 @@
                     <label>文章类型：</label>
                     <select class="form-control" name="type">
                         <option value="0" th:selected="${type == 0}">全部</option>
-                        <option th:each="arttype : ${types}" th:value="${arttype.id}" th:text="${arttype.name}" th:selected="${type == arttype.id}">type_name</option>
+                        <option th:each="arttype : ${types}" th:value="${arttype.id}" th:text="${arttype.name}"
+                                th:selected="${type == arttype.id}">type_name
+                        </option>
                     </select>
                 </div>
                 <div class="form-group mr-2">
@@ -73,31 +94,72 @@
                     <th>文章序号</th>
                     <th>文章类型</th>
                     <th>文章标题</th>
-                    <th>创建时间</th>
                     <th>文章状态</th>
+                    <th>发布时间</th>
+                    <th>创建时间</th>
+                    <th>文章权重</th>
                     <th>操作</th>
                 </tr>
                 <tr th:each="art, artStat : ${pageList}">
                     <td th:text="${artStat.count}"></td>
                     <td th:switch="${art.type}">
-                        <span th:each="arttype : ${types}" th:case="${arttype.id}" th:text="${arttype.name}">type_name</span>
+                        <span th:each="arttype : ${types}" th:case="${arttype.id}"
+                              th:text="${arttype.name}">type_name</span>
                         <span th:case="*">UNKOWN</span>
                     </td>
                     <td th:text="${art.title}"></td>
-                    <td th:text="${#dates.format(art.createTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
                     <td th:switch="${art.status}">
                         <span th:case="1">未发布</span>
                         <span th:case="2">已发布</span>
                     </td>
+                    <td th:text="${#dates.format(art.publishTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <td th:text="${#dates.format(art.createTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <td th:text="${art.weight}"></td>
                     <td>
                         <!--<a class="btn btn-primary btn-sm" th:href="${'https://www.wannacorn.com/article/' + art.id}" target="_blank">预览</a>-->
-                        <a class="btn btn-primary btn-sm" th:href="${'//localhost:8080/article/' + art.id}" target="_blank">预览</a>
-                        <button class="btn btn-success btn-sm" th:onclick="'javascript:publishArt('+${art.id}+')'">发布</button>
-                        <button class="btn btn-danger btn-sm" th:onclick="'javascript:deleteArt('+${art.id}+')'">删除</button>
+                        <a th:if="${art.status == 1}" class="btn btn-info btn-sm" th:href="${'//localhost:8080/article/' + art.id}"
+                           target="_blank">预览</a>
+                        <button type="button" class="btn btn-primary btn-sm" th:onclick="'javascript:updateArt('+${art.id}+')'">编辑</button>
+                        <button type="button" th:class="${art.status == 1 ? 'btn btn-success btn-sm' : 'btn btn-danger btn-sm'}"
+                                th:onclick="'javascript:publishArt('+${art.id}+', '+${art.status}+')'"
+                                th:text="${art.status == 1 ? '发布' : '下架'}">button
+                        </button>
+                        <button type="button" th:if="${art.status == 1}" class="btn btn-danger btn-sm" th:onclick="'javascript:deleteArt('+${art.id}+')'">删除
+                        </button>
                     </td>
                 </tr>
             </table>
             <div th:replace="fragments/pagination :: pagination(${'searchForm'},${'/article'})"></div>
+        </div>
+    </div>
+    <!--编辑文章模态框-->
+    <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModal"
+         aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header"><h5>编辑文章</h5></div>
+                <div class="modal-body">
+                    <form id="updateForm" action="/article/update" method="post">
+                        <input type="hidden" name="id">
+                        <div class="form-group">
+                            <label>文章标题</label>
+                            <div>
+                                <input class="form-control" name="title" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>文章权重</label>
+                            <div>
+                                <input type="number" class="form-control w-50" name="weight" required>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">取消</button>
+                    <button class="btn btn-primary btn-sm" form="updateForm">确定</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>

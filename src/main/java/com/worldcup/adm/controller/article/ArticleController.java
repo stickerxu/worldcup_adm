@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -60,8 +61,8 @@ public class ArticleController {
             article.setTitle(title);
             modelMap.put("title", title);
         }
-        Page<Article> articles = articleService.listArticleByCriteria(article, Sort.by(Sort.Order.desc("id")));
-        modelMap.put("pageList", articles);
+        Page<Article> articles = articleService.listArticleByCriteria(article, Sort.by(Sort.Order.desc("weight"),Sort.Order.desc("id")));
+        modelMap.put(Constants.MODEL_MAP_PAGE, articles);
         List<ArticleType> types = articleTypeService.listAll();
         modelMap.put("types", types);
         return "article/list";
@@ -93,7 +94,6 @@ public class ArticleController {
             Files.copy(file.getInputStream(), Paths.get(dirPath.toString(), builder.toString()), StandardCopyOption.REPLACE_EXISTING);
             //入库
             article.setFileName(builder.toString());
-            article.setStatus(1);
             articleService.save(article);
             log.info("添加文章：{}",article.getFileName());
             //返回结果
@@ -107,9 +107,9 @@ public class ArticleController {
     }
 
     @PostMapping("/publish")
-    public @ResponseBody int publish(@RequestParam("id") Integer id) {
+    public @ResponseBody int publish(@RequestParam("id") Integer id, @RequestParam("status") Integer status) {
         int result = 1;
-        articleService.updateStatusAndPublishTimeById(id);
+        articleService.updateStatusAndPublishTimeById(id, status);
         return result;
     }
 
@@ -126,5 +126,27 @@ public class ArticleController {
             log.error(e.getMessage(), e);
         }
         return result;
+    }
+
+    @GetMapping("/update/get")
+    public @ResponseBody Article updateGet(@RequestParam("id") Integer id) {
+        Article article = articleService.getArticleById(id);
+        return article;
+    }
+
+    @PostMapping("/update")
+    public void update(Article art, HttpServletResponse response) {
+        Article article = articleService.getArticleById(art.getId());
+        if (article == null) {
+            return;
+        }
+        article.setTitle(art.getTitle());
+        article.setWeight(art.getWeight());
+        articleService.updateByObj(article);
+        try {
+            ResponsePageUtil.backAndRefresh(response);
+        } catch (IOException e) {
+            log.error(e.getMessage(), e);
+        }
     }
 }

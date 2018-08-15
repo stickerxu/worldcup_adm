@@ -13,7 +13,9 @@ public interface ArticleService {
 
     void deleteById(Integer id);
 
-    void updateStatusAndPublishTimeById(Integer id);
+    void updateStatusAndPublishTimeById(Integer id, Integer status);
 
     Article getArticleById(Integer id);
+
+    void updateByObj(Article article);
 }

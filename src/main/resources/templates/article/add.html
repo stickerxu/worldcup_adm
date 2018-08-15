@@ -8,15 +8,15 @@
     <script>
         $(function () {
             $('#file').change(function () {
-               $(".custom-file-label").text($(this).val());
+                $(".custom-file-label").text($(this).val());
             });
         })
     </script>
 </head>
 <body>
-<div layout:fragment="content" class="container">
+<div layout:fragment="content">
 
-    <div class="t-space"></div>
+
     <h2>添加文章</h2>
     <hr>
     <div>
@@ -37,11 +37,15 @@
                 <label class="col-form-label col-sm-3">文章类型</label>
                 <div class="col-sm-4">
                     <select class="form-control" name="type">
-                        <option th:each="arttype : ${types}" th:value="${arttype.id}" th:text="${arttype.name}">type_name</option>
+                        <option th:each="arttype : ${types}" th:value="${arttype.id}" th:text="${arttype.name}">
+                            type_name
+                        </option>
                     </select>
                 </div>
                 <div class="col-sm-2">
-                    <button type="button" class="btn btn-outline-dark btn-sm" data-toggle="modal" data-target="#articleTypeModal">新增类型</button>
+                    <button type="button" class="btn btn-outline-dark btn-sm" data-toggle="modal"
+                            data-target="#articleTypeModal">新增类型
+                    </button>
                 </div>
             </div>
             <div class="form-group row">
@@ -61,7 +65,8 @@
         </form>
     </div>
     <!--新增类型模态框-->
-    <div class="modal fade" id="articleTypeModal" tabindex="-1" role="dialog" aria-labelledby="articleTypeModal" aria-hidden="true">
+    <div class="modal fade" id="articleTypeModal" tabindex="-1" role="dialog" aria-labelledby="articleTypeModal"
+         aria-hidden="true">
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 <div class="modal-header"><h5>新增文章类型</h5></div>
