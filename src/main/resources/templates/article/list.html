@@ -43,7 +43,7 @@
     <hr>
     <div>
         <div>
-            <form class="form-inline" action="/article" method="post">
+            <form id="searchForm" class="form-inline" action="/article" method="post">
                 <div class="form-group mr-2">
                     <label>文章类型：</label>
                     <select class="form-control" name="type">
@@ -97,7 +97,7 @@
                     </td>
                 </tr>
             </table>
-            <div th:replace="fragments/pagination :: pagination(${'/article'})"></div>
+            <div th:replace="fragments/pagination :: pagination(${'searchForm'},${'/article'})"></div>
         </div>
     </div>
 </div>
