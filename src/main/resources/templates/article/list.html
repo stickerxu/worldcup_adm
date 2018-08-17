@@ -7,7 +7,7 @@
     <title>文章管理列表</title>
     <style>
         .container {
-            max-width: 1600px;
+            max-width: 1500px;
         }
     </style>
     <script>
@@ -116,9 +116,9 @@
                     <td th:text="${#dates.format(art.createTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
                     <td th:text="${art.weight}"></td>
                     <td>
-                        <!--<a class="btn btn-primary btn-sm" th:href="${'https://www.wannacorn.com/article/' + art.id}" target="_blank">预览</a>-->
-                        <a th:if="${art.status == 1}" class="btn btn-info btn-sm" th:href="${'//localhost:8080/article/' + art.id}"
-                           target="_blank">预览</a>
+                        <a th:if="${art.status == 1}" class="btn btn-primary btn-sm" th:href="${'https://www.wannacorn.com/article/' + art.id}" target="_blank">预览</a>
+                        <!--<a th:if="${art.status == 1}" class="btn btn-info btn-sm" th:href="${'//localhost:8080/article/' + art.id}"
+                           target="_blank">预览</a>-->
                         <button type="button" class="btn btn-primary btn-sm" th:onclick="'javascript:updateArt('+${art.id}+')'">编辑</button>
                         <button type="button" th:class="${art.status == 1 ? 'btn btn-success btn-sm' : 'btn btn-danger btn-sm'}"
                                 th:onclick="'javascript:publishArt('+${art.id}+', '+${art.status}+')'"

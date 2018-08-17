@@ -20,6 +20,7 @@ public class Article extends BaseEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(columnDefinition = "tinyint(2)")
     private Integer type;
     @Column(columnDefinition = "tinyint(1) NOT NULL DEFAULT 1")
     private Integer status = 1;
