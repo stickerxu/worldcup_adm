@@ -40,7 +40,7 @@ public class ArticleController {
     @Autowired
     private ArticleTypeService articleTypeService;
 
-    @Value("${web.article.path.dev}")
+    @Value("${web.article.path}")
     private String webArticlePath;
 
     @RequestMapping({"", "/"})
@@ -79,7 +79,8 @@ public class ArticleController {
         //校验文件类型
         String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
         if (!suffix.equals(Constants.FILE_SUFFIX_HTML)) {
-            return ResponsePageUtil.errorPage("文件类型有误! 请选择html格式文件", modelMap);
+            modelMap.put("message", "文件类型有误! 请选择html格式文件");
+            return ResponsePageUtil.errorPage(modelMap);
         }
         try {
             Integer maxArticleId = articleService.countArticlesByType(article.getType());
