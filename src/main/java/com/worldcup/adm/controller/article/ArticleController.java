@@ -40,7 +40,7 @@ public class ArticleController {
     @Autowired
     private ArticleTypeService articleTypeService;
 
-    @Value("${web.article.path}")
+    @Value("${web.article.path.dev}")
     private String webArticlePath;
 
     @RequestMapping({"", "/"})
