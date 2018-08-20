@@ -44,7 +44,7 @@
             }
         }
 
-        //编辑
+        //编辑获取数据
         function updateArt(id) {
             $.get("/article/update/get", {id : id}, updateArtCallback);
         }
@@ -53,6 +53,28 @@
             $("#updateModal input[name='title']").val(data.title);
             $("#updateModal input[name='weight']").val(data.weight);
             $('#updateModal').modal('show');
+        }
+        //编辑提交
+        function updateFormSub() {
+            var formdata = new FormData($('#updateForm')[0]);
+            $.ajax({
+                url: '/article/update',
+                type: 'post',
+                cache: false,
+                processData: false,
+                contentType: false,
+                data: formdata,
+                success: function (data) {
+                    if (data == 1) {
+                        location.reload();
+                    } else {
+                        alert("操作失败！");
+                    }
+                },
+                error: function () {
+                    alert("操作失败！");
+                }
+            });
         }
     </script>
 </head>
@@ -157,7 +179,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">取消</button>
-                    <button class="btn btn-primary btn-sm" form="updateForm">确定</button>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="updateFormSub()">确定</button>
                 </div>
             </div>
         </div>

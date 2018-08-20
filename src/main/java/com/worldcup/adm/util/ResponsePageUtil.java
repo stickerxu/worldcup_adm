@@ -14,6 +14,6 @@ public class ResponsePageUtil {
     }
     public static void backAndRefresh(HttpServletResponse response) throws IOException {
         response.setContentType("text/html;charset=UTF-8");
-        response.getWriter().write("<script>history.go(-1);</script>");
+        response.getWriter().write("<script>history.go(-1);location.reload(true)</script>");
     }
 }
