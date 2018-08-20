@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -136,18 +137,14 @@ public class ArticleController {
     }
 
     @PostMapping("/update")
-    public void update(Article art, HttpServletResponse response) {
+    public @ResponseBody Integer update(Article art) {
         Article article = articleService.getArticleById(art.getId());
         if (article == null) {
-            return;
+            return 0;
         }
         article.setTitle(art.getTitle());
         article.setWeight(art.getWeight());
         articleService.updateByObj(article);
-        try {
-            ResponsePageUtil.backAndRefresh(response);
-        } catch (IOException e) {
-            log.error(e.getMessage(), e);
-        }
+        return 1;
     }
 }

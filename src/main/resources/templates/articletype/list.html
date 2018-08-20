@@ -16,6 +16,27 @@
             $("#updateModal input[name='weight']").val(data.weight);
             $('#updateModal').modal('show');
         }
+        //编辑提交
+        function updateFormSub() {
+            var formdata = new FormData($('#updateForm')[0]);
+            $.ajax({
+                url: '/article/type/update',
+                type: 'post',
+                cache: false,
+                processData: false,
+                contentType: false,
+                data: formdata,
+                success: function (data) {
+                    if (data == 1) {
+                        location.reload();
+                    } else {
+                        alert("操作失败！");
+                    }
+                },
+                error: function () {
+                    alert("操作失败！");
+                }
+            });
         //是否显示
         function showType(id, status) {
             if (confirm("确定执行操作吗？")) {
@@ -45,6 +66,7 @@
                 alert("操作失败");
             }
         }
+
     </script>
 </head>
 <body>
@@ -113,7 +135,7 @@
             <div class="modal-content">
                 <div class="modal-header"><h5>编辑文章类型</h5></div>
                 <div class="modal-body">
-                    <form id="updateForm" action="/article/type/update" class="w-75" method="post">
+                    <form id="updateForm" action="/article/type/update" class="w-75">
                         <input type="hidden" name="id">
                         <div class="form-group">
                             <label>类型名称</label>
@@ -131,7 +153,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">取消</button>
-                    <button class="btn btn-primary btn-sm" form="updateForm">确定</button>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="updateFormSub()">确定</button>
                 </div>
             </div>
         </div>

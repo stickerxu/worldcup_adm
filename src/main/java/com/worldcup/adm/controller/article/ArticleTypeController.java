@@ -50,19 +50,15 @@ public class ArticleTypeController {
     }
 
     @PostMapping("/update")
-    public void update(ArticleType articleType, HttpServletResponse response) {
+    public @ResponseBody Integer update(ArticleType articleType, HttpServletResponse response) {
         ArticleType type = articleTypeService.getById(articleType.getId());
         if (type == null) {
-            return;
+            return 0;
         }
         type.setName(articleType.getName());
         type.setWeight(articleType.getWeight());
         articleTypeService.updateByObj(type);
-        try {
-            ResponsePageUtil.backAndRefresh(response);
-        } catch (IOException e) {
-            log.error(e.getMessage(), e);
-        }
+        return 1;
     }
 
     @PostMapping("/show")
