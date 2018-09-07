@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{fragments/layout}"
+      lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>用户管理列表</title>
+</head>
+<body>
+<div layout:fragment="content" class="container">
+    <h2>用户管理列表</h2>
+    <hr>
+    <div>
+        <form id="searchForm" class="form-inline" action="/user" method="post">
+            <div class="form-group mr-2">
+                <label>用户ID：</label>
+                <input class="form-control" name="id">
+            </div>
+            <button class="btn btn-primary">搜索</button>
+        </form>
+    </div>
+    <hr>
+    <div>
+        <table class="table table-bordered table-hover">
+            <tr class="thead-dark">
+                <th>用户ID</th>
+                <th>真实姓名</th>
+                <th>手机号</th>
+                <th>邮箱</th>
+                <th>邀请码</th>
+                <th>注册时间</th>
+                <th>操作</th>
+            </tr>
+            <tr th:each="user : ${pageList}">
+                <td th:text="${user.id}"></td>
+                <td th:text="${user.realName}"></td>
+                <td th:text="${user.userPhone}"></td>
+                <td th:text="${user.userEmail}"></td>
+                <td th:text="${user.investCode}"></td>
+                <td th:text="${#dates.format(user.registryTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                <td></td>
+            </tr>
+        </table>
+        <div th:replace="fragments/pagination :: pagination(${'searchForm'},${'/user'})"></div>
+    </div>
+</div>
+</body>
+</html>

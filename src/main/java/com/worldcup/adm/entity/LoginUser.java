@@ -13,7 +13,7 @@ import java.util.Date;
 @Getter
 @Setter
 @Entity
-public class LoginUser implements Serializable {
+public class LoginUser extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 5619835167434421102L;
 
     @Id
