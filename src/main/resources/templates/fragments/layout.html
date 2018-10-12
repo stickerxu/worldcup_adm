@@ -69,7 +69,7 @@
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/}">首页</a>
                 </li>
-                <li class="nav-item dropdown">
+                <li class="nav-item dropdown" sec:authorize="hasRole('ADMIN')">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">文章</a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" th:href="@{/article/add}">添加文章</a>
@@ -93,7 +93,7 @@
 <button id="backTop" class="btn btn-outline-primary position-fixed" style="right: 0;bottom: 2rem">返回顶部</button>
 <footer class="clearfix text-center">
     <hr>
-    &copy; 2018 - 2019 WorldCup.Inc
+    &copy; 2018 - 2019 WannaCorn
 </footer>
 </body>
 </html>

@@ -34,6 +34,10 @@ public class AdminUserDetails implements UserDetails {
         return adminUser.getUsername();
     }
 
+    public String getGoogleAuthSecretKey() {
+        return adminUser.getGoogleAuthSecretKey();
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;

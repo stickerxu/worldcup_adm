@@ -43,6 +43,8 @@ dependencies {
 //    compile('org.apache.pdfbox:pdfbox:2.0.11')
     compile('com.itextpdf:itextpdf:5.5.13')
     compile('com.itextpdf:itext-asian:5.2.0')
+    compile('commons-codec:commons-codec:1.11')
+
 
     runtime('mysql:mysql-connector-java')
     compileOnly('org.projectlombok:lombok')
