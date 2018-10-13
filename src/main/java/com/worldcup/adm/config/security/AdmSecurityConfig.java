@@ -16,13 +16,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class AdmSecurityConfig extends WebSecurityConfigurerAdapter {
-    @Bean
-    PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
-    }
+
     @Bean
     public UserDetailsService userDetailsService() {
-        return new AdminUserDetailsService();
+        return new  AdminUserDetailsService();
+    }
+
+    @Bean
+    public AdminTotpAuthenticationConfigurer totpAuthenticationConfigurer() {
+        return new AdminTotpAuthenticationConfigurer(userDetailsService());
     }
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -32,6 +34,7 @@ public class AdmSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
             .and()
                 .formLogin()
+                .authenticationDetailsSource(AdminTotpAuthenticationDetails::new)
                 .loginPage("/login")
                 .loginProcessingUrl("/loginSub")
                 .defaultSuccessUrl("/")
@@ -45,5 +48,10 @@ public class AdmSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web.ignoring()
                 .antMatchers("/webjars/**");
+    }
+
+    @Override
+    public void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.apply(totpAuthenticationConfigurer());
     }
 }

@@ -18,7 +18,6 @@
                 $.post("/article/publish", {id: id, status : status}, publishArtCallback);
             }
         }
-
         function publishArtCallback(data) {
             if (data == 1) {
                 alert("操作成功");
@@ -34,7 +33,6 @@
                 $.post("/article/delete", {id: id}, deleteArtCallback);
             }
         }
-
         function deleteArtCallback(data) {
             if (data == 1) {
                 alert("操作成功");

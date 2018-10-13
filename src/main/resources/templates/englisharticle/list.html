@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{fragments/layout}"
+      lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>管理文章</title>
+    <script>
+        //删除
+        function deleteArt(id) {
+            if (confirm("确定删除吗？")) {
+                $.post("/englisharticle/delete", {id: id}, deleteArtCallback);
+            }
+        }
+        function deleteArtCallback(data) {
+            if (data == 1) {
+                alert("操作成功");
+                location.reload();
+            } else {
+                alert("操作失败");
+            }
+        }
+        //编辑
+        function updateArt(id) {
+            location.href = "/englisharticle/update?id="+id;
+        }
+    </script>
+</head>
+<body>
+<div layout:fragment="content" class="container">
+    <h2>管理文章</h2>
+    <hr>
+    <div>
+        <form id="searchForm" class="form-inline" action="/englisharticle" method="post">
+            <div class="form-group mr-2">
+                <label>文章类型：</label>
+                <input name="type" th:value="${type}" class="form-control">
+            </div>
+            <button class="btn btn-primary">搜索</button>
+        </form>
+    </div>
+    <hr>
+    <div>
+        <table class="table table-bordered table-hover">
+            <tr class="thead-dark">
+                <th>文章序号</th>
+                <th>文章类型</th>
+                <th>文章标题</th>
+                <th>创建时间</th>
+                <th>修改时间</th>
+                <th>操作</th>
+            </tr>
+            <tr th:each="art, artStat : ${pageList}">
+                <td th:text="${artStat.count}"></td>
+                <td th:text="${art.type}"></td>
+                <td th:text="${art.primaryTitle}"></td>
+                <td th:text="${#dates.format(art.createTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                <td th:text="${#dates.format(art.updateTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                <td>
+                    <button type="button" class="btn btn-primary btn-sm" th:onclick="'javascript:updateArt('+${art.id}+')'">编辑</button>
+                    <button type="button" class="btn btn-danger btn-sm" th:onclick="'javascript:deleteArt('+${art.id}+')'">删除
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div th:replace="fragments/pagination :: pagination(${'searchForm'},${'/englisharticle'})"></div>
+</div>
+</body>
+</html>

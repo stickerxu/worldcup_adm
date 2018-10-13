@@ -3,6 +3,11 @@
       lang="zh-CN">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="widli=device-widli, initial-scale=1">
+    <link rel="apple-touch-icon" href="https://www.wannacorn.com//static/img/icon/icon_logo48.ico?v=20180720">
+    <link rel="shortcut icon" href="https://www.wannacorn.com//static/img/icon/icon_logo48.ico?v=20180720">
+    <link rel="icon" href="https://www.wannacorn.com//static/img/icon/icon_logo48.ico?v=20180720">
     <title>登录</title>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.1.1/css/bootstrap.min.css}">
     <script th:src="@{/webjars/jquery/3.3.1-1/jquery.min.js}"></script>
@@ -42,10 +47,11 @@
                 <p th:if="${param.logout}">已退出</p>
             </div>
             <div class="form-group">
-                <input class="form-control" id="username" name="username" placeholder="请输入用户名">
+                <input class="form-control" id="username" name="username" placeholder="请输入用户名" required>
             </div>
-            <div class="form-group text-right">
-                <input type="password" class="form-control" id="password" name="password" placeholder="请输入密码">
+            <div class="form-group">
+                <input class="form-control w-50" minlength="6" maxlength="6"
+                       id="dynamicCode" name="dynamicCode" placeholder="动态密码" required>
             </div>
             <button id="loginButton" class="btn btn-primary btn-block">立即登录</button>
         </form>
