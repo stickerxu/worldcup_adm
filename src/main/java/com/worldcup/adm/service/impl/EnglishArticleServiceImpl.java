@@ -41,8 +41,9 @@ public class EnglishArticleServiceImpl implements EnglishArticleService {
     public Page<EnglishArticle> listArticleByCriteria(EnglishArticle article, Sort sorts) {
         return englishArticleRepository.findAll((root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
+            predicates.add(builder.notEqual(root.get("type").as(String.class), "fileExtract"));
             if(null != article.getType()){
-                predicates.add(builder.like(root.get("type").as(String.class), "%"+article.getType()+"%"));
+                predicates.add(builder.equal(root.get("type").as(String.class), article.getType()));
             }
             return builder.and(predicates.toArray(new Predicate[predicates.size()]));
         }, PageRequest.of(article.getPage(), article.getSize(), sorts));

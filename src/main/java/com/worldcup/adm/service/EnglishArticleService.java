@@ -4,6 +4,8 @@ import com.worldcup.adm.entity.EnglishArticle;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 
+import java.util.List;
+
 public interface EnglishArticleService {
     void save(EnglishArticle article);
 
@@ -14,4 +16,6 @@ public interface EnglishArticleService {
     EnglishArticle getById(Integer id);
 
     Page<EnglishArticle> listArticleByCriteria(EnglishArticle article, Sort sorts);
+
+    List<EnglishArticle> listArticleBySearchContent(EnglishArticle article);
 }

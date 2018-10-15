@@ -24,11 +24,15 @@ public class EnglishArticle extends BaseEntity implements Serializable {
     @Column(columnDefinition = "varchar(20) not null default '' COMMENT '文章类型'")
     private String type;
     @Column(columnDefinition = "varchar(50) not null default '' COMMENT '主标题'")
-    private String primaryTitle;
+    private String primaryTitle = "";
     @Column(columnDefinition = "varchar(100) not null default '' COMMENT '副标题'")
-    private String secondTitle;
+    private String secondTitle = "";
     @Column(columnDefinition = "text COMMENT '正文内容'")
     private String content;
+    @Column(columnDefinition = "int(6) not null default 0 COMMENT 'pdf原始文件id'")
+    private Integer pdfPrimaryFileId = 0;
+    @Column(columnDefinition = "int(3) not null default 0 COMMENT 'pdf文章页码'")
+    private Integer pdfPageNumber = 0;
     @UpdateTimestamp
     private Date updateTime;
     @CreationTimestamp
