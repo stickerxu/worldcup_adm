@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{fragments/layout}"
+      lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>英文文章上传</title>
+    <script>
+        $(function () {
+            //提交时，上传按钮失效
+            $('form:first').submit(function () {
+                $('form:first button:first').prop("disabled", true);
+            });
+        })
+    </script>
+</head>
+<body>
+<div layout:fragment="content" class="container">
+    <h2>英文文章上传</h2>
+    <hr>
+    <div>
+        <!--todo 校验文章类型pdf-->
+        <form action="/englisharticle/upload" method="post" enctype="multipart/form-data">
+            <div class="form-group w-25">
+                <label>选择文件：</label>
+                <input type="file" class="form-control" name="files" multiple required>
+                <small class="text-danger">（目前仅支持<b>“.pdf”</b>格式文件上传）</small>
+            </div>
+            <button class="btn btn-info">上传</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

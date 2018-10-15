@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{fragments/layout}"
+      lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>检索英文文章</title>
+</head>
+<body>
+<div layout:fragment="content" class="container">
+    <h2>检索英文文章</h2>
+    <hr>
+    <div>
+        <form action="/englisharticle/search" method="post">
+            <div class="row">
+                <label class="col-sm-1 col-form-label">检索词汇</label>
+                <div class="col-sm-10">
+                    <input class="form-control" name="words" placeholder="多个单词以英文逗号（' , '）分隔" required>
+                </div>
+                <div class="col-sm-1">
+                    <button class="btn btn-primary">检索</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
