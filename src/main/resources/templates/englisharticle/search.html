@@ -10,7 +10,7 @@
 <div layout:fragment="content" class="container">
     <h2>检索英文文章</h2>
     <hr>
-    <div>
+    <div class="mb-4">
         <form action="/englisharticle/search" method="post">
             <div class="row">
                 <label class="col-sm-1 col-form-label">检索词汇</label>
@@ -22,6 +22,29 @@
                 </div>
             </div>
         </form>
+    </div>
+    <div id="accordion">
+        <div class="card" th:each="resultMap, resultMapStat : ${resultMap}">
+            <div class="card-header" th:id="${'heading' + resultMapStat.count}">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" data-toggle="collapse" aria-expanded="true"
+                            th:attr="data-target=${'#collapse' + resultMapStat.count},aria-controls=${'#collapse' + resultMapStat.count}"
+                            th:text="${'根据单词 “' + resultMap.key + '” 共检索到 ' + #lists.size(resultMap.value) + ' 篇文章'}">
+
+                    </button>
+                    <small class="ml-5">打包下载</small>
+                </h5>
+            </div>
+            <div th:id="${'collapse' + resultMapStat.count}" class="collapse" th:attr="aria-labelledby=${'heading' + resultMapStat.count}" data-parent="#accordion">
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item" th:each="art, artStat : ${resultMap.value}">
+                            <span th:text="${'文章'+artStat.count+'：'}"></span><a href="#">201808080101123.pdf</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 </body>

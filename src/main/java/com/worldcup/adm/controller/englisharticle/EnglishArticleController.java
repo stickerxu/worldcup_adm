@@ -29,6 +29,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @Slf4j
@@ -137,6 +140,7 @@ public class EnglishArticleController {
         return ResponsePageUtil.errorPage(modelMap);
     }
 
+    //文章检索
     @GetMapping("/search")
     public String search(HttpServletRequest request, ModelMap modelMap) {
         return searchPost(request, modelMap);
@@ -145,10 +149,16 @@ public class EnglishArticleController {
     public String searchPost(HttpServletRequest request, ModelMap modelMap) {
         String words = request.getParameter("words");
         if (ParameterUtil.isNotBlank(words)) {
+            Map<String, Object> resultMap = new HashMap<>();
             String[] wordArray = words.split(",");
+            EnglishArticle article = new EnglishArticle();
+            List<EnglishArticle> articles;
             for (String word : wordArray) {
-
+                article.setContent(word);
+                articles = englishArticleService.listArticleBySearchContent(article);
+                resultMap.put(word, articles);
             }
+            modelMap.put("resultMap", resultMap);
         }
         return "englisharticle/search";
     }
