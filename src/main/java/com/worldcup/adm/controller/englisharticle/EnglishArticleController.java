@@ -1,12 +1,15 @@
 package com.worldcup.adm.controller.englisharticle;
 
+import com.itextpdf.text.DocumentException;
 import com.worldcup.adm.Constants;
 import com.worldcup.adm.entity.EnglishArticle;
 import com.worldcup.adm.entity.EnglishArticleFile;
 import com.worldcup.adm.entity.OperateResult;
 import com.worldcup.adm.service.EnglishArticleFileService;
 import com.worldcup.adm.service.EnglishArticleService;
+import com.worldcup.adm.util.DownloadUtil;
 import com.worldcup.adm.util.ParameterUtil;
+import com.worldcup.adm.util.PdfResolveUtil;
 import com.worldcup.adm.util.ResponsePageUtil;
 import com.worldcup.adm.util.SequenceUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -150,7 +154,7 @@ public class EnglishArticleController {
         String words = request.getParameter("words");
         if (ParameterUtil.isNotBlank(words)) {
             Map<String, Object> resultMap = new HashMap<>();
-            String[] wordArray = words.split(",");
+            String[] wordArray = words.toLowerCase().split(",");
             EnglishArticle article = new EnglishArticle();
             List<EnglishArticle> articles;
             for (String word : wordArray) {
@@ -158,8 +162,32 @@ public class EnglishArticleController {
                 articles = englishArticleService.listArticleBySearchContent(article);
                 resultMap.put(word, articles);
             }
+            modelMap.put("words",words);
             modelMap.put("resultMap", resultMap);
         }
         return "englisharticle/search";
+    }
+    //文章预览
+    @GetMapping("/preview")
+    public void preview(@RequestParam("pdfPrimaryFileId") Integer pdfPrimaryFileId,
+                        @RequestParam("pdfPageNumber") Integer pdfPageNumber, HttpServletResponse response) {
+        EnglishArticleFile file = englishArticleFileService.getById(pdfPrimaryFileId);
+        if (file == null) {
+            log.error("未找到ID为 {} 的文件", pdfPrimaryFileId);
+            return;
+        }
+        String filePath = Paths.get(uploadPath,file.getFileName().substring(0,8), file.getFileName()).toString();
+        try {
+            response.setContentType(DownloadUtil.PDF);// 下载东西的格式
+            response.addHeader("Content-disposition", "attachment; filename=WannaCorn.pdf");
+            response.setHeader("Cache-Control", "no-store");
+            response.setHeader("Pragma", "no-cache");
+            response.setDateHeader("Expires", 0);
+            PdfResolveUtil.extractPdfPage(filePath, pdfPageNumber, response.getOutputStream());
+        } catch (IOException e) {
+            log.error(e.getMessage(), e);
+        } catch (DocumentException e) {
+            log.error(e.getMessage(), e);
+        }
     }
 }

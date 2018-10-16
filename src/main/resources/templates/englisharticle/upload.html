@@ -7,6 +7,17 @@
     <title>英文文章上传</title>
     <script>
         $(function () {
+            //选择文件时校验文件类型
+            $('form :file').change(function () {
+                var files = $(this)[0].files;
+                $(files).each(function (i, file) {
+                    if (file.type != 'application/pdf') {
+                        alert("文件类型有误，请重新选择");
+                        location.reload();
+                        return false;
+                    }
+                })
+            });
             //提交时，上传按钮失效
             $('form:first').submit(function () {
                 $('form:first button:first').prop("disabled", true);
@@ -19,12 +30,11 @@
     <h2>英文文章上传</h2>
     <hr>
     <div>
-        <!--todo 校验文章类型pdf-->
         <form action="/englisharticle/upload" method="post" enctype="multipart/form-data">
             <div class="form-group w-25">
                 <label>选择文件：</label>
                 <input type="file" class="form-control" name="files" multiple required>
-                <small class="text-danger">（目前仅支持<b>“.pdf”</b>格式文件上传）</small>
+                <small class="text-danger">（目前仅支持<b>“.pdf ”</b>格式文件上传且单个文件大小 < 30MB，所有文件大小 < 200MB）</small>
             </div>
             <button class="btn btn-info">上传</button>
         </form>

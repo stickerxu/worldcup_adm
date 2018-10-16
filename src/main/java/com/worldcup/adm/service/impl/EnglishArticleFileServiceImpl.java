@@ -28,4 +28,9 @@ public class EnglishArticleFileServiceImpl implements EnglishArticleFileService 
     public List<EnglishArticleFile> listByStatus(Integer status) {
         return englishArticleFileRepository.findAllByStatus(status);
     }
+
+    @Override
+    public EnglishArticleFile getById(Integer id) {
+        return englishArticleFileRepository.findById(id).get();
+    }
 }

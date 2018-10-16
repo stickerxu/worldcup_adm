@@ -12,6 +12,7 @@ import com.itextpdf.text.pdf.parser.SimpleTextExtractionStrategy;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,21 +23,11 @@ import java.util.Map;
 import java.util.Set;
 
 public class PdfResolveUtil {
-    private static final String TEST_PDF_FROM = "D:\\test\\engread\\pdf\\2018.08.25.pdf";
-    private static final String TEST_PDF_TARGET = "D:\\test\\engread\\pdf\\t_target.pdf";
-    private static final String TEST_TXT_TARGET = "D:\\test\\engread\\txt\\2018.08.25.txt";
     private static final Integer PDF_PAGE_LENGTH = 4000;
     private static final Integer PDF_PAGE_READ_START = 5;
     public static final String PDF_MAP_WORD_SET_NAME = "words";
     public static final String PDF_MAP_PAGE_NAME = "pageNumber";
 
-    //todo 异常具体
-    public static void main(String[] args) throws Exception{
-        List<Map<String, Object>> maps = readByItext(TEST_PDF_FROM);
-        for (Map<String, Object> map : maps) {
-            System.out.println(((Set<String>)map.get(PDF_MAP_WORD_SET_NAME)).size() + "---" + map.get(PDF_MAP_PAGE_NAME));
-        }
-    }
     //通过itext解析pdf, 返回一个Map， 包含所有单词和页码
     public static List<Map<String, Object>> readByItext(String filePath) throws IOException {
         List<Map<String, Object>> resultList = new ArrayList<>();
@@ -77,13 +68,15 @@ public class PdfResolveUtil {
         return wordSet;
     }
 
-    //提取文章所在的pdf页面
-    public void extractPdfPage(List<Integer> pages) throws IOException, DocumentException {
-        PdfReader reader = new PdfReader(TEST_PDF_FROM);
+    //提取文章所在的pdf页面(单页)
+    public static void extractPdfPage(String filePath, int page, OutputStream os) throws IOException, DocumentException {
+        PdfReader reader = new PdfReader(filePath);
         //根据页数提取pdf
-        reader.selectPages(pages);
-        PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(TEST_PDF_TARGET));
+        reader.selectPages(String.valueOf(page));
+        PdfStamper stamper = new PdfStamper(reader, os);
         stamper.close();
         reader.close();
+        os.flush();
+        os.close();
     }
 }
