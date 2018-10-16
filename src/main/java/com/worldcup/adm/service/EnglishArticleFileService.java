@@ -10,4 +10,6 @@ public interface EnglishArticleFileService {
     void updateStatusById(Integer id, Integer status);
 
     List<EnglishArticleFile> listByStatus(Integer status);
+
+    EnglishArticleFile getById(Integer id);
 }

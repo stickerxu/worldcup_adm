@@ -15,7 +15,7 @@
             <div class="row">
                 <label class="col-sm-1 col-form-label">检索词汇</label>
                 <div class="col-sm-10">
-                    <input class="form-control" name="words" placeholder="多个单词以英文逗号（' , '）分隔" required>
+                    <input class="form-control" name="words" th:value="${words}" placeholder="多个单词以英文逗号（' , '）分隔" required>
                 </div>
                 <div class="col-sm-1">
                     <button class="btn btn-primary">检索</button>
@@ -27,19 +27,20 @@
         <div class="card" th:each="resultMap, resultMapStat : ${resultMap}">
             <div class="card-header" th:id="${'heading' + resultMapStat.count}">
                 <h5 class="mb-0">
-                    <button class="btn btn-link" data-toggle="collapse" aria-expanded="true"
+                    <button class="btn btn-outline-info" style="" data-toggle="collapse" aria-expanded="true"
                             th:attr="data-target=${'#collapse' + resultMapStat.count},aria-controls=${'#collapse' + resultMapStat.count}"
                             th:text="${'根据单词 “' + resultMap.key + '” 共检索到 ' + #lists.size(resultMap.value) + ' 篇文章'}">
 
                     </button>
-                    <small class="ml-5">打包下载</small>
+                    <small class="ml-5 text-secondary" style="cursor: pointer" onclick="alert('暂不可用，等我开发，老任！')">打包下载</small>
                 </h5>
             </div>
             <div th:id="${'collapse' + resultMapStat.count}" class="collapse" th:attr="aria-labelledby=${'heading' + resultMapStat.count}" data-parent="#accordion">
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item" th:each="art, artStat : ${resultMap.value}">
-                            <span th:text="${'文章'+artStat.count+'：'}"></span><a href="#">201808080101123.pdf</a>
+                            <span th:text="${'文章'+artStat.count+'：'}"></span><a th:href="@{/englisharticle/preview(pdfPrimaryFileId=${art.pdfPrimaryFileId},pdfPageNumber=${art.pdfPageNumber})}"
+                                                                                target="_blank" title="点击预览" th:text="${#strings.length(art.content) > 80 ? #strings.substring(art.content, 0, 80) + '...' : art.content}"></a>
                         </li>
                     </ul>
                 </div>
