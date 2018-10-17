@@ -1,9 +1,14 @@
 package com.worldcup.adm.task;
 
+import com.worldcup.adm.Constants;
 import com.worldcup.adm.entity.EnglishArticle;
 import com.worldcup.adm.entity.EnglishArticleFile;
+import com.worldcup.adm.entity.SiteData;
+import com.worldcup.adm.entity.jsonobject.IndexEnglishArticleData;
 import com.worldcup.adm.service.EnglishArticleFileService;
 import com.worldcup.adm.service.EnglishArticleService;
+import com.worldcup.adm.service.SiteDataService;
+import com.worldcup.adm.util.JsonUtil;
 import com.worldcup.adm.util.PdfResolveUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,15 +29,19 @@ public class EnglishArticleFileTask {
     private EnglishArticleFileService englishArticleFileService;
     @Autowired
     private EnglishArticleService englishArticleService;
+    @Autowired
+    private SiteDataService siteDataService;
 
     @Value("${task.english.article.file}")
-    private String taskOnOff;
+    private String taskAOnOff;
+    @Value("${task.english.article.data}")
+    private String taskBOnOff;
     @Value("${upload.english.article.path}")
     private String articlePath;
     //批量处理pdf文件提取文章内容
-    @Scheduled(cron = "0 */30 * * * ?")
+    @Scheduled(cron = "0 0/30 * * * ?")
     public void taskA() {
-        if (taskOnOff.equals("on")) {
+        if (taskAOnOff.equals("on")) {
             log.info("开始扫描未处理pdf文件...");
             //查出所有未处理的pdf
             List<EnglishArticleFile> files = englishArticleFileService.listByStatus(0);
@@ -77,4 +86,35 @@ public class EnglishArticleFileTask {
         }
     }
 
+    //更新首页文章相关数据
+    @Scheduled(cron = "0 5/30 * * * ?")
+    public void taskB() {
+        if (taskBOnOff.equals("on")) {
+            log.info("开始统计首页英文文章数据...");
+            //今日上传文件数
+            Integer countTodayNewFiles = englishArticleFileService.countTodayNewFiles();
+            //今日新增文章数
+            Integer countTodayNewArticles = englishArticleService.countTodayNewArticles();
+            //todo 今日新增词汇数
+            IndexEnglishArticleData data = new IndexEnglishArticleData();
+            data.setTodayNewFile(countTodayNewFiles);
+            data.setTodayNewArticle(countTodayNewArticles);
+            data.setTodayNewWord(0);
+            //转为json字符串入库
+            String jsonString = JsonUtil.obj2Json(data);
+            //查询数据库 key是否存在，存在就更新value，不存在就插入;
+            String dataKey = Constants.KEY_INDEX_ENGLISH_ARTICLE_DATA;
+            SiteData siteData = siteDataService.getByDataKey(dataKey);
+            if (siteData != null) {
+                siteData.setDataValue(jsonString);
+                siteDataService.updateById(siteData);
+            } else {
+                siteData = new SiteData();
+                siteData.setDataKey(dataKey);
+                siteData.setDataValue(jsonString);
+                siteDataService.save(siteData);
+            }
+            log.info("首页英文文章数据统计完毕");
+        }
+    }
 }

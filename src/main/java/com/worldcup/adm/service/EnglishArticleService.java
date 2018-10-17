@@ -18,4 +18,6 @@ public interface EnglishArticleService {
     Page<EnglishArticle> listArticleByCriteria(EnglishArticle article, Sort sorts);
 
     List<EnglishArticle> listArticleBySearchContent(EnglishArticle article);
+
+    Integer countTodayNewArticles();
 }

@@ -3,6 +3,7 @@ package com.worldcup.adm.service.impl;
 import com.worldcup.adm.entity.EnglishArticle;
 import com.worldcup.adm.repository.EnglishArticleRepository;
 import com.worldcup.adm.service.EnglishArticleService;
+import com.worldcup.adm.util.DateTimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -57,5 +58,10 @@ public class EnglishArticleServiceImpl implements EnglishArticleService {
             predicates.add(builder.like(root.get("content").as(String.class), "%" + article.getContent() + "%"));
             return builder.and(predicates.toArray(new Predicate[predicates.size()]));
         });
+    }
+
+    @Override
+    public Integer countTodayNewArticles() {
+        return englishArticleRepository.countTodayNewArticles();
     }
 }

@@ -40,9 +40,9 @@
                     <th>今日新增词汇（个）</th>
                 </tr>
                 <tr class="bg-light">
-                    <td>10</td>
-                    <td>20</td>
-                    <td>100</td>
+                    <td th:text="${englishArticleData == null ? 0 : englishArticleData.todayNewFile}"></td>
+                    <td th:text="${englishArticleData == null ? 0 : englishArticleData.todayNewArticle}"></td>
+                    <td th:text="${englishArticleData == null ? 0 : englishArticleData.todayNewWord}"></td>
                 </tr>
             </table>
         </div>

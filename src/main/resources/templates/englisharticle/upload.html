@@ -10,13 +10,24 @@
             //选择文件时校验文件类型
             $('form :file').change(function () {
                 var files = $(this)[0].files;
+                var singFileSize = 1024 * 30;
+                var totalFileSize = 1024 * 200;
+                var size = 0;
                 $(files).each(function (i, file) {
+                    if (file.size > singFileSize) {
+                        alert("单个文件过大");
+                        return false;
+                    }
                     if (file.type != 'application/pdf') {
                         alert("文件类型有误，请重新选择");
                         location.reload();
                         return false;
                     }
-                })
+                    size += file.size;
+                });
+                if (size > totalFileSize) {
+                    alert("选择文件大小超过上线");
+                }
             });
             //提交时，上传按钮失效
             $('form:first').submit(function () {

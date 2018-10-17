@@ -12,4 +12,6 @@ public interface EnglishArticleFileService {
     List<EnglishArticleFile> listByStatus(Integer status);
 
     EnglishArticleFile getById(Integer id);
+
+    Integer countTodayNewFiles();
 }
