@@ -3,6 +3,7 @@ package com.worldcup.adm.service.impl;
 import com.worldcup.adm.entity.EnglishArticleFile;
 import com.worldcup.adm.repository.EnglishArticleFileRepository;
 import com.worldcup.adm.service.EnglishArticleFileService;
+import com.worldcup.adm.util.DateTimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,5 +33,10 @@ public class EnglishArticleFileServiceImpl implements EnglishArticleFileService 
     @Override
     public EnglishArticleFile getById(Integer id) {
         return englishArticleFileRepository.findById(id).get();
+    }
+
+    @Override
+    public Integer countTodayNewFiles() {
+        return englishArticleFileRepository.countTodayNewFiles();
     }
 }
