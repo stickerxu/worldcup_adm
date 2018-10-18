@@ -64,4 +64,9 @@ public class EnglishArticleServiceImpl implements EnglishArticleService {
     public Integer countTodayNewArticles() {
         return englishArticleRepository.countTodayNewArticles();
     }
+
+    @Override
+    public Integer countAll() {
+        return Long.valueOf(englishArticleRepository.count()).intValue();
+    }
 }

@@ -11,11 +11,14 @@ import java.util.List;
 
 @Repository
 public interface EnglishArticleFileRepository extends JpaRepository<EnglishArticleFile, Integer>, JpaSpecificationExecutor<EnglishArticleFile> {
-    List<EnglishArticleFile> findAllByStatus(Integer status);
 
     @Query(value = "select count(*) from english_article_file file where date(file.create_time)=current_date()", nativeQuery = true)
     Integer countTodayNewFiles();
+
     @Modifying
     @Query(value = "update english_article_file file set file.status = ?2 where file.id = ?1", nativeQuery = true)
     void updateStatusById(Integer id, Integer status);
+
+    List<EnglishArticleFile> findAllByStatus(Integer status);
+
 }

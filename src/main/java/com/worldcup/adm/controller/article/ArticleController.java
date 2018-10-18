@@ -80,8 +80,7 @@ public class ArticleController {
         //校验文件类型
         String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
         if (!suffix.equals(Constants.FILE_SUFFIX_HTML)) {
-            modelMap.put("message", "文件类型有误! 请选择html格式文件");
-            return ResponsePageUtil.errorPage(modelMap);
+            return ResponsePageUtil.errorPage(modelMap, "文件类型有误! 请选择html格式文件");
         }
         try {
             Integer maxArticleId = articleService.countArticlesByType(article.getType());

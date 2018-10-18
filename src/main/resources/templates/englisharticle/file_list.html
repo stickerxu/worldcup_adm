@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{fragments/layout}"
+      lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>管理文件</title>
+</head>
+<body>
+<div layout:fragment="content" class="container">
+    <h2>管理文件</h2>
+    <hr>
+    <div>
+        <form class="d-none" id="searchForm" action="/englisharticlefile" method="post"></form>
+    </div>
+    <div class="mt-4">
+        <table class="table table-bordered table-hover text-center">
+            <tr class="thead-dark">
+                <th>序号</th>
+                <th>文件名称</th>
+                <th>文件状态</th>
+                <th>上传时间</th>
+            </tr>
+            <tr th:each="file, fileStat : ${pageList}">
+                <td th:text="${fileStat.count}"></td>
+                <td th:text="${file.originalName}"></td>
+                <td th:switch="${file.status}">
+                    <span th:case="0">未处理</span>
+                    <span th:case="1">已处理</span>
+                </td>
+                <td th:text="${#dates.format(file.createTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+            </tr>
+        </table>
+        <div th:replace="fragments/pagination :: pagination(${'searchForm'},${'/englisharticlefile'})"></div>
+    </div>
+</div>
+</body>
+</html>

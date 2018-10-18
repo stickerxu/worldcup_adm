@@ -20,4 +20,6 @@ public interface EnglishArticleService {
     List<EnglishArticle> listArticleBySearchContent(EnglishArticle article);
 
     Integer countTodayNewArticles();
+
+    Integer countAll();
 }

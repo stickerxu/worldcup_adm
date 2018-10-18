@@ -35,31 +35,52 @@
             <table class="table table-bordered table-sm text-center">
                 <caption><small>* 统计时间： 30分钟前</small></caption>
                 <tr class="thead-light">
-                    <th>今日上传文件（个）</th>
-                    <th>今日新增文章（篇）</th>
-                    <th>今日新增词汇（个）</th>
+                    <td></td>
+                    <td>英文文件（个）</td>
+                    <td>英文文章（篇）</td>
+                    <td>英文词汇（个）</td>
                 </tr>
                 <tr class="bg-light">
+                    <th>今日新增</th>
                     <td th:text="${englishArticleData == null ? 0 : englishArticleData.todayNewFile}"></td>
                     <td th:text="${englishArticleData == null ? 0 : englishArticleData.todayNewArticle}"></td>
                     <td th:text="${englishArticleData == null ? 0 : englishArticleData.todayNewWord}"></td>
                 </tr>
+                <tr class="bg-light">
+                    <th>历史总计</th>
+                    <td th:text="${englishArticleData == null ? 0 : englishArticleData.historyTotalFile}"></td>
+                    <td th:text="${englishArticleData == null ? 0 : englishArticleData.historyTotalArticle}"></td>
+                    <td th:text="${englishArticleData == null ? 0 : englishArticleData.historyTotalWord}"></td>
+                </tr>
             </table>
         </div>
-        <ul>
-            <li>
-                <a href="/englisharticle/upload">上传英文文章</a>
-            </li>
-            <li>
-                <a href="/englisharticle/search">检索英文文章</a>
-            </li>
-            <li>
-                <a href="/englisharticle/add">添加英文文章</a>
-            </li>
-            <li>
-                <a href="/englisharticle">管理英文文章</a>
-            </li>
-        </ul>
+        <div class="row m-0">
+            <ul class="col-md-3">
+                <li>
+                    <a href="/englisharticle/upload">上传英文文件</a>
+                </li>
+                <li>
+                    <a href="/englisharticlefile">管理英文文件</a>
+                </li>
+                <li>
+                    <a href="/englisharticle/search">检索英文文章</a>
+                </li>
+                <li>
+                    <a href="/englisharticle/add">添加英文文章</a>
+                </li>
+                <li>
+                    <a href="/englisharticle">管理英文文章</a>
+                </li>
+            </ul>
+            <ul class="col-md-3">
+                <li>
+                    <a href="/englishword/add">添加词汇</a>
+                </li>
+                <li>
+                    <a href="/englishword">管理词汇</a>
+                </li>
+            </ul>
+        </div>
     </div>
     <div style="height: 25rem"></div>
 </div>

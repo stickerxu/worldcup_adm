@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{fragments/layout}"
+      lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>管理单词</title>
+</head>
+<body>
+<div layout:fragment="content" class="container">
+    <h2>管理单词</h2>
+    <hr>
+    <div>
+        <form id="searchForm" action="/englishword" class="form-inline" method="post">
+            <div class="form-group mr-2">
+                <label>单词：</label>
+                <input name="word" class="form-control" th:value="${word}">
+            </div>
+            <button class="btn btn-primary">搜索</button>
+        </form>
+    </div>
+    <div class="mt-4 w-75">
+        <table class="table table-bordered table-hover">
+            <tr class="thead-dark">
+                <th>序号</th>
+                <th>单词</th>
+                <th>操作</th>
+            </tr>
+            <tr th:each="word, wordStat : ${pageList}">
+                <td th:text="${wordStat.count}"></td>
+                <td th:text="${word.word}"></td>
+                <td></td>
+            </tr>
+        </table>
+        <div th:replace="fragments/pagination :: pagination(${'searchForm'},${'/englishword'})"></div>
+    </div>
+</div>
+</body>
+</html>
