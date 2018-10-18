@@ -7,6 +7,7 @@ import com.worldcup.adm.entity.SiteData;
 import com.worldcup.adm.entity.jsonobject.IndexEnglishArticleData;
 import com.worldcup.adm.service.EnglishArticleFileService;
 import com.worldcup.adm.service.EnglishArticleService;
+import com.worldcup.adm.service.EnglishWordService;
 import com.worldcup.adm.service.SiteDataService;
 import com.worldcup.adm.util.JsonUtil;
 import com.worldcup.adm.util.PdfResolveUtil;
@@ -29,6 +30,8 @@ public class EnglishArticleFileTask {
     private EnglishArticleFileService englishArticleFileService;
     @Autowired
     private EnglishArticleService englishArticleService;
+    @Autowired
+    private EnglishWordService englishWordService;
     @Autowired
     private SiteDataService siteDataService;
 
@@ -95,11 +98,21 @@ public class EnglishArticleFileTask {
             Integer countTodayNewFiles = englishArticleFileService.countTodayNewFiles();
             //今日新增文章数
             Integer countTodayNewArticles = englishArticleService.countTodayNewArticles();
-            //todo 今日新增词汇数
+            //今日新增词汇数
+            Integer countTodayNewWords = englishWordService.countTodayNewWords();
+            //历史总计文件数
+            Integer totalFiles = englishArticleFileService.countAll();
+            //历史总计文章数
+            Integer totalArticles = englishArticleService.countAll();
+            //历史总计词汇数
+            Integer totalWords = englishWordService.countAll();
             IndexEnglishArticleData data = new IndexEnglishArticleData();
             data.setTodayNewFile(countTodayNewFiles);
             data.setTodayNewArticle(countTodayNewArticles);
-            data.setTodayNewWord(0);
+            data.setTodayNewWord(countTodayNewWords);
+            data.setHistoryTotalFile(totalFiles);
+            data.setHistoryTotalArticle(totalArticles);
+            data.setHistoryTotalWord(totalWords);
             //转为json字符串入库
             String jsonString = JsonUtil.obj2Json(data);
             //查询数据库 key是否存在，存在就更新value，不存在就插入;

@@ -15,7 +15,7 @@ public class AdmApplicationTests {
 
     @Test
     public void contextLoads() {
-        Integer count = englishArticleFileService.countTodayNewFiles();
+        Integer count = englishArticleFileService.countAll();
         System.out.println(count);
     }
 

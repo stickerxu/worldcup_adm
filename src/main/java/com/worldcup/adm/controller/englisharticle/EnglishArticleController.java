@@ -134,14 +134,14 @@ public class EnglishArticleController {
                 //数据入库
                 articleFile = new EnglishArticleFile();
                 articleFile.setFileName(fileName);
+                articleFile.setOriginalName(file.getOriginalFilename());
                 englishArticleFileService.save(articleFile);
             }
-            modelMap.put("operateResult", new OperateResult("上传成功", files.length + "个文件上传成功"));
-            return "success";
+            return ResponsePageUtil.successPage(modelMap, "上传成功", files.length + "个文件上传成功");
         } catch (IOException e) {
             log.error(e.getMessage(), e);
+            return ResponsePageUtil.errorPage(modelMap, "发生了未知的错误，请联系管理员！");
         }
-        return ResponsePageUtil.errorPage(modelMap);
     }
 
     //文章检索
