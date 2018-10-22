@@ -48,4 +48,9 @@ public class EnglishWordServiceImpl implements EnglishWordService {
             return builder.and(predicates.toArray(new Predicate[predicates.size()]));
         }, PageRequest.of(word.getPage(), word.getSize(), sorts));
     }
+
+    @Override
+    public List<EnglishWord> listAll() {
+        return englishWordRepository.findAll();
+    }
 }

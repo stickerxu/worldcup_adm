@@ -22,4 +22,6 @@ public interface EnglishArticleService {
     Integer countTodayNewArticles();
 
     Integer countAll();
+
+    List<EnglishArticle> findByTypeAndStauts(String type, Integer status);
 }

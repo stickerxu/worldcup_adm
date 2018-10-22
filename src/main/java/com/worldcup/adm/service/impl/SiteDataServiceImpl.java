@@ -13,7 +13,13 @@ public class SiteDataServiceImpl implements SiteDataService {
 
     @Override
     public void save(SiteData siteData) {
-        siteDataRepository.save(siteData);
+        SiteData data = getByDataKey(siteData.getDataKey());
+        if (data != null) {
+            data.setDataValue(siteData.getDataValue());
+            updateById(data);
+        } else {
+            siteDataRepository.save(siteData);
+        }
     }
 
     @Override
