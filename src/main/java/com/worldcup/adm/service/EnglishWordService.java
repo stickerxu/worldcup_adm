@@ -4,6 +4,7 @@ import com.worldcup.adm.entity.EnglishWord;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 
+import java.util.List;
 import java.util.Set;
 
 public interface EnglishWordService {
@@ -12,4 +13,5 @@ public interface EnglishWordService {
     Integer countTodayNewWords();
     Integer countAll();
     Page<EnglishWord> listByPage(EnglishWord englishWord, Sort sorts);
+    List<EnglishWord> listAll();
 }

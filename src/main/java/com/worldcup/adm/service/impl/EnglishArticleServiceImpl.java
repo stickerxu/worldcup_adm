@@ -69,4 +69,9 @@ public class EnglishArticleServiceImpl implements EnglishArticleService {
     public Integer countAll() {
         return Long.valueOf(englishArticleRepository.count()).intValue();
     }
+
+    @Override
+    public List<EnglishArticle> findByTypeAndStauts(String type, Integer status) {
+        return englishArticleRepository.findByTypeAndStauts(type, status);
+    }
 }
