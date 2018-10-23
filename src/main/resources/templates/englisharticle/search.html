@@ -7,10 +7,10 @@
     <title>检索英文文章</title>
 </head>
 <body>
-<div layout:fragment="content" class="container">
+<div layout:fragment="content" style="max-width: 1400px">
     <h2>检索英文文章</h2>
     <hr>
-    <div class="mb-4">
+    <div>
         <form action="/englisharticle/search" method="post">
             <div class="row">
                 <label class="col-sm-1 col-form-label">检索词汇</label>
@@ -23,6 +23,31 @@
             </div>
         </form>
     </div>
+    <!--自动匹配结果-->
+    <div class="mt-4" th:if="${pageList != null}">
+        <p class="font-weight-bold">* 根据现有单词库和文章库自动检索出的包含高频词汇的文章列表（根据包含词汇量倒叙）：</p>
+        <table class="table table-bordered table-hover table-sm text-center">
+            <tr class="thead-dark">
+                <th>序号</th>
+                <th>文章摘要</th>
+                <th>包含单词</th>
+                <th>原始文章名称</th>
+                <th>操作</th>
+            </tr>
+            <tr th:each="art, artStat : ${pageList}">
+                <td th:text="${artStat.count}"></td>
+                <td class="text-left" th:text="${art.secondTitle}"></td>
+                <td class="text-left" style="word-break: break-word" th:text="${art.containWords + '（' + art.containWordSize +'个）'}"></td>
+                <td th:text="${art.pdfPrimaryFileId}"></td>
+                <td>
+                    <button class="btn btn-info btn-sm">预览</button>
+                </td>
+            </tr>
+        </table>
+        <form class="d-none" id="searchForm" method="post"></form>
+        <div th:replace="fragments/pagination :: pagination(${'searchForm'},${'/englisharticle/search'})"></div>
+    </div>
+    <!--文章检索结果-->
     <div id="accordion">
         <div class="card" th:each="resultMap, resultMapStat : ${resultMap}">
             <div class="card-header" th:id="${'heading' + resultMapStat.count}">

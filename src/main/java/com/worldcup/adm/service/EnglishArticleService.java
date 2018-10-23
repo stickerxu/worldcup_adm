@@ -17,11 +17,13 @@ public interface EnglishArticleService {
 
     Page<EnglishArticle> listArticleByCriteria(EnglishArticle article, Sort sorts);
 
+    Page<EnglishArticle> listArticleByStatus(EnglishArticle article, Sort sorts);
+
     List<EnglishArticle> listArticleBySearchContent(EnglishArticle article);
 
     Integer countTodayNewArticles();
 
     Integer countAll();
 
-    List<EnglishArticle> findByTypeAndStauts(String type, Integer status);
+    List<EnglishArticle> findByTypeAndStatus(String type, Integer status);
 }

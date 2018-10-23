@@ -6,7 +6,7 @@
     <title>pagination</title>
 </head>
 <body>
-<div th:if="${not #lists.isEmpty(pageList.content)}" th:fragment="pagination(formId,url)">
+<div th:fragment="pagination(formId,url)">
     <ul class="pagination justify-content-center">
         <li class="page-item">
             <button class="page-link" th:form="${formId}" th:formaction="${url + '?page=0'}" tabindex="-1">首页</button>

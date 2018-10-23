@@ -4,7 +4,6 @@ import com.itextpdf.text.DocumentException;
 import com.worldcup.adm.Constants;
 import com.worldcup.adm.entity.EnglishArticle;
 import com.worldcup.adm.entity.EnglishArticleFile;
-import com.worldcup.adm.entity.OperateResult;
 import com.worldcup.adm.service.EnglishArticleFileService;
 import com.worldcup.adm.service.EnglishArticleService;
 import com.worldcup.adm.util.DownloadUtil;
@@ -152,6 +151,19 @@ public class EnglishArticleController {
     @PostMapping("/search")
     public String searchPost(HttpServletRequest request, ModelMap modelMap) {
         String words = request.getParameter("words");
+        //自动匹配
+        if (ParameterUtil.isBlank(words)) {
+            Integer page = ParameterUtil.defaultZero(request.getParameter("page"));
+            EnglishArticle art = new EnglishArticle();
+            art.setPage(page);
+            art.setSize(30);
+            art.setStatus(1);
+            Page<EnglishArticle> arts = englishArticleService.listArticleByStatus(art, Sort.by(Sort.Order.desc("containWordSize")));
+            //根据单词包含数量排序
+            modelMap.put("page", page);
+            modelMap.put(Constants.MODEL_MAP_PAGE, arts);
+        }
+        //检索词汇
         if (ParameterUtil.isNotBlank(words)) {
             Map<String, Object> resultMap = new HashMap<>();
             String[] wordArray = words.toLowerCase().split(",");

@@ -12,6 +12,5 @@ import java.util.List;
 public interface EnglishArticleRepository extends JpaRepository<EnglishArticle, Integer>, JpaSpecificationExecutor<EnglishArticle> {
     @Query(value = "select count(*) from english_article article where date(article.create_time)=current_date()", nativeQuery = true)
     Integer countTodayNewArticles();
-
-    List<EnglishArticle> findByTypeAndStauts(String type, Integer status);
+    List<EnglishArticle> findByTypeAndStatus(String type, Integer status);
 }
