@@ -51,6 +51,15 @@ public class EnglishArticleServiceImpl implements EnglishArticleService {
     }
 
     @Override
+    public Page<EnglishArticle> listArticleByStatus(EnglishArticle article, Sort sorts) {
+        return englishArticleRepository.findAll((root, query, builder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            predicates.add(builder.equal(root.get("status").as(Integer.class), article.getStatus()));
+            return builder.and(predicates.toArray(new Predicate[predicates.size()]));
+        }, PageRequest.of(article.getPage(), article.getSize(), sorts));
+    }
+
+    @Override
     public List<EnglishArticle> listArticleBySearchContent(EnglishArticle article) {
         return englishArticleRepository.findAll((root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
@@ -71,7 +80,7 @@ public class EnglishArticleServiceImpl implements EnglishArticleService {
     }
 
     @Override
-    public List<EnglishArticle> findByTypeAndStauts(String type, Integer status) {
-        return englishArticleRepository.findByTypeAndStauts(type, status);
+    public List<EnglishArticle> findByTypeAndStatus(String type, Integer status) {
+        return englishArticleRepository.findByTypeAndStatus(type, status);
     }
 }

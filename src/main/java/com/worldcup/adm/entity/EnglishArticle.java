@@ -34,9 +34,11 @@ public class EnglishArticle extends BaseEntity implements Serializable {
     @Column(columnDefinition = "int(3) not null default 0 COMMENT 'pdf文章页码'")
     private Integer pdfPageNumber = 0;
     @Column(columnDefinition = "tinyint(1) not null default 0 COMMENT '文章状态：0、默认；1、已更新高频词汇；2、已使用'")
-    private Integer stauts = 0;
+    private Integer status = 0;
     @Column(columnDefinition = "varchar(1000) not null default '' COMMENT '包含的高频词汇单词'")
-    private String containWords;
+    private String containWords = "";
+    @Column(columnDefinition = "int(3) not null default 0 COMMENT '包含的高频词汇单词数量'")
+    private Integer containWordSize = 0;
     @UpdateTimestamp
     private Date updateTime;
     @CreationTimestamp

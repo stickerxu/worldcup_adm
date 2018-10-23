@@ -20,7 +20,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -139,7 +138,7 @@ public class EnglishArticleFileTask {
             //查询所有单词
             List<EnglishWord> words = englishWordService.listAll();
             //查询所有文章
-            List<EnglishArticle> articles = englishArticleService.findByTypeAndStauts("fileExtract", 0);
+            List<EnglishArticle> articles = englishArticleService.findByTypeAndStatus("fileExtract", 0);
             int wordSize = words.size();
             int articleSize = articles.size();
             if (wordSize == 0 || articleSize == 0) {
@@ -171,8 +170,9 @@ public class EnglishArticleFileTask {
                 if (countWord > 1) {
                     updateArticle++;
                     wordInfo.setLength(wordInfo.length() -1);
-                    article.setStauts(1);
+                    article.setStatus(1);
                     article.setContainWords(wordInfo.toString());
+                    article.setContainWordSize(countWord);
                     englishArticleService.updateByObj(article);
                 }
             }
