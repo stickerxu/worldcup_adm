@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -44,4 +46,9 @@ public class EnglishArticle extends BaseEntity implements Serializable {
     @CreationTimestamp
     @Column(updatable = false)
     private Date createTime;
+
+    @OneToOne
+    @JoinColumn(name = "pdfPrimaryFileId", referencedColumnName = "id", insertable = false, updatable = false)
+    private EnglishArticleFile articleFile;
+
 }
