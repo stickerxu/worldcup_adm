@@ -45,7 +45,7 @@ public class EnglishArticleFileTask {
     @Value("${upload.english.article.path}")
     private String articlePath;
     //批量处理pdf文件提取文章内容
-    @Scheduled(cron = "0 0/1 * * * ?")
+    @Scheduled(cron = "0 0/30 * * * ?")
     public void taskA() {
         if (taskAOnOff.equals("on")) {
             log.info("开始扫描未处理pdf文件...");
@@ -96,7 +96,7 @@ public class EnglishArticleFileTask {
     }
 
     //更新首页文章相关数据
-    @Scheduled(cron = "0 0/3 * * * ?")
+    @Scheduled(cron = "0 5/30 * * * ?")
     public void taskB() {
         if (taskBOnOff.equals("on")) {
             log.info("开始统计首页英文文章数据...");
@@ -131,7 +131,7 @@ public class EnglishArticleFileTask {
     }
 
     //文章包含高频词汇统计
-    @Scheduled(cron = "0 0/1 * * * ?")
+    @Scheduled(cron = "0 15 0,12 * * ?")
     public void taskC() {
         if (taskCOnOff.equals("on")) {
             log.info("开始进行词汇文章匹配...");

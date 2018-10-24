@@ -30,4 +30,7 @@ public class EnglishArticleFile extends BaseEntity implements Serializable {
     @CreationTimestamp
     @Column(updatable = false)
     private Date createTime;
+
+    /*@OneToMany(mappedBy = "articleFile")
+    private List<EnglishArticle> englishArticles;*/
 }

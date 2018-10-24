@@ -180,7 +180,7 @@ public class EnglishArticleController {
         return "englisharticle/search";
     }
     //文章预览
-    @GetMapping("/preview")
+    @RequestMapping("/preview")
     public void preview(@RequestParam("pdfPrimaryFileId") Integer pdfPrimaryFileId,
                         @RequestParam("pdfPageNumber") Integer pdfPageNumber, HttpServletResponse response) {
         EnglishArticleFile file = englishArticleFileService.getById(pdfPrimaryFileId);

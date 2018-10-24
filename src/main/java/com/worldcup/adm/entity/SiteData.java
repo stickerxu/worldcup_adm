@@ -20,6 +20,6 @@ public class SiteData implements Serializable {
     private Integer id;
     @Column(columnDefinition = "varchar(100) not null default ''")
     private String dataKey;
-    @Column(columnDefinition = "text")
+    @Column(columnDefinition = "varchar(3000) not null default ''")
     private String dataValue;
 }

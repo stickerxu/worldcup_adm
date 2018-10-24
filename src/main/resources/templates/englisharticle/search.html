@@ -24,31 +24,32 @@
         </form>
     </div>
     <!--自动匹配结果-->
-    <div class="mt-4" th:if="${pageList != null}">
+    <div class="mt-4" th:if="${pageList != null and #lists.size(pageList.content) > 0}">
         <p class="font-weight-bold">* 根据现有单词库和文章库自动检索出的包含高频词汇的文章列表（根据包含词汇量倒叙）：</p>
         <table class="table table-bordered table-hover table-sm text-center">
             <tr class="thead-dark">
                 <th>序号</th>
                 <th>文章摘要</th>
-                <th>包含单词</th>
-                <th>原始文章名称</th>
+                <th>包含词汇</th>
+                <th>原始文章位置</th>
                 <th>操作</th>
             </tr>
             <tr th:each="art, artStat : ${pageList}">
                 <td th:text="${artStat.count}"></td>
                 <td class="text-left" th:text="${art.secondTitle}"></td>
                 <td class="text-left" style="word-break: break-word" th:text="${art.containWords + '（' + art.containWordSize +'个）'}"></td>
-                <td th:text="${art.pdfPrimaryFileId}"></td>
+                <td th:text="${art.articleFile.originalName + '的第' + art.pdfPageNumber + '页'}"></td>
                 <td>
-                    <button class="btn btn-info btn-sm">预览</button>
+                    <button class="btn btn-info btn-sm" form="downloadForm" th:formaction="@{/englisharticle/preview(pdfPrimaryFileId=${art.pdfPrimaryFileId},pdfPageNumber=${art.pdfPageNumber})}">预览</button>
                 </td>
             </tr>
         </table>
+        <form class="d-none" id="downloadForm" method="post"></form>
         <form class="d-none" id="searchForm" method="post"></form>
         <div th:replace="fragments/pagination :: pagination(${'searchForm'},${'/englisharticle/search'})"></div>
     </div>
     <!--文章检索结果-->
-    <div id="accordion">
+    <div id="accordion" class="mt-4">
         <div class="card" th:each="resultMap, resultMapStat : ${resultMap}">
             <div class="card-header" th:id="${'heading' + resultMapStat.count}">
                 <h5 class="mb-0">
@@ -64,8 +65,10 @@
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item" th:each="art, artStat : ${resultMap.value}">
-                            <span th:text="${'文章'+artStat.count+'：'}"></span><a th:href="@{/englisharticle/preview(pdfPrimaryFileId=${art.pdfPrimaryFileId},pdfPageNumber=${art.pdfPageNumber})}"
+                            <span th:text="${'文章'+artStat.count+'：'}"></span>
+                            <a th:href="@{/englisharticle/preview(pdfPrimaryFileId=${art.pdfPrimaryFileId},pdfPageNumber=${art.pdfPageNumber})}"
                                                                                 target="_blank" title="点击预览" th:text="${#strings.length(art.content) > 80 ? #strings.substring(art.content, 0, 80) + '...' : art.content}"></a>
+                            <span class="ml-4" th:text="${'文章位置：' + art.articleFile.originalName + '的第' + art.pdfPageNumber + '页'}"></span>
                         </li>
                     </ul>
                 </div>
