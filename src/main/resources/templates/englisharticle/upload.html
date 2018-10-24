@@ -10,8 +10,8 @@
             //选择文件时校验文件类型
             $('form :file').change(function () {
                 var files = $(this)[0].files;
-                var singFileSize = 1024 * 1024 * 30;
-                var totalFileSize = 1024 * 1024 * 200;
+                var singFileSize = 1024 * 1024 * 150;
+                var totalFileSize = 1024 * 1024 * 1024;
                 var size = 0;
                 $(files).each(function (i, file) {
                     if (file.size > singFileSize) {
@@ -48,7 +48,7 @@
             <div class="form-group w-25">
                 <label>选择文件：</label>
                 <input type="file" class="form-control" name="files" multiple required>
-                <small class="text-danger">（目前仅支持<b>“.pdf ”</b>格式文件上传且单个文件大小 < 30MB，所有文件大小 < 200MB）</small>
+                <small class="text-danger">（目前仅支持<b>“.pdf ”</b>格式文件上传且单个文件大小 < 150MB，所有文件大小 < 1024MB）</small>
             </div>
             <button class="btn btn-info">上传</button>
         </form>
